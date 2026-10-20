@@ -1,0 +1,162 @@
+@import 'tailwindcss';
+
+/* Dark mode is toggled by a `dark` class on <html> (see ThemeContext + index.html) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-accent: #e10600;
+  --color-accent-dark: #b80500;
+  --color-accent-light: #ff3b30;
+  --color-charcoal: #111111;
+  --color-charcoal-800: #18181b;
+  --color-charcoal-700: #222226;
+  --color-charcoal-600: #2e2e33;
+
+  --font-heading: 'Poppins', 'Noto Sans Devanagari', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', 'Noto Sans Devanagari', ui-sans-serif, system-ui, sans-serif;
+
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-shine: shine 1.1s ease;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes shine {
+    from { transform: translateX(-120%) skewX(-20deg); }
+    to { transform: translateX(220%) skewX(-20deg); }
+  }
+}
+
+/* Semantic colours that flip between light and dark mode */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+}
+
+:root {
+  --surface: #ffffff;
+  --surface-2: #f6f6f7;
+  --surface-3: #ececee;
+  --card: #ffffff;
+  --ink: #111111;
+  --muted: #55555e;
+  --subtle: #8a8a94;
+  --line: #e7e7ea;
+  color-scheme: light;
+}
+
+.dark {
+  --surface: #0a0a0c;
+  --surface-2: #101013;
+  --surface-3: #18181c;
+  --card: #141417;
+  --ink: #f5f5f6;
+  --muted: #a3a3ad;
+  --subtle: #72727c;
+  --line: #26262c;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-surface font-sans text-ink antialiased transition-colors duration-300;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4, h5 {
+    @apply font-heading tracking-tight;
+  }
+  ::selection {
+    @apply bg-accent text-white;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+  /* Devanagari needs normal letter-spacing and no forced uppercase spacing */
+  :lang(hi) body { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
+  :lang(hi) h1, :lang(hi) h2, :lang(hi) h3, :lang(hi) h4 { letter-spacing: 0; line-height: 1.35; }
+  :lang(hi) [class*='tracking-'] { letter-spacing: 0.02em !important; }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+@utility section {
+  @apply py-20 md:py-28;
+}
+@utility btn {
+  @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 font-heading text-[13px] font-semibold tracking-[0.08em] uppercase transition-all duration-300 active:scale-[0.98];
+}
+@utility btn-primary {
+  @apply btn bg-accent text-white shadow-[0_10px_30px_-10px_rgba(225,6,0,0.7)] hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-[0_18px_40px_-12px_rgba(225,6,0,0.75)];
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  &:hover::after {
+    animation: var(--animate-shine);
+  }
+}
+@utility btn-outline {
+  @apply btn border border-white/40 bg-white/5 text-white backdrop-blur-sm hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-charcoal;
+}
+@utility btn-dark {
+  @apply btn bg-charcoal text-white hover:-translate-y-0.5 hover:bg-charcoal-700 dark:bg-white dark:text-charcoal dark:hover:bg-neutral-200;
+}
+@utility btn-ghost {
+  @apply btn border border-line text-ink hover:-translate-y-0.5 hover:border-accent hover:text-accent;
+}
+@utility card {
+  @apply rounded-2xl border border-line bg-card transition-all duration-500;
+}
+@utility card-hover {
+  @apply hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-[0_30px_60px_-25px_rgba(225,6,0,0.35)];
+}
+@utility input {
+  @apply w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink transition placeholder:text-subtle focus:border-accent focus:ring-4 focus:ring-accent/15 focus:outline-none;
+}
+@utility input-error {
+  @apply border-accent ring-4 ring-accent/10;
+}
+@utility label {
+  @apply mb-1.5 block text-[13px] font-medium text-muted;
+}
+/* Soft red glow used behind dark sections */
+@utility glow {
+  background-image:
+    radial-gradient(60% 50% at 85% 0%, rgba(225, 6, 0, 0.18), transparent 70%),
+    radial-gradient(40% 40% at 0% 100%, rgba(225, 6, 0, 0.1), transparent 70%);
+}
+/* Fine grid texture for premium dark panels */
+@utility grid-lines {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-marquee { animation: none; }
+}
+
+/* Swiper pagination in brand colours */
+.swiper-pagination-bullet { background: #fff; opacity: 0.45; transition: all 0.3s; }
+.swiper-pagination-bullet-active { background: var(--color-accent); opacity: 1; width: 28px; border-radius: 4px; }
+.reviews-swiper .swiper-pagination-bullet { background: var(--ink); opacity: 0.25; }
+.reviews-swiper .swiper-pagination-bullet-active { background: var(--color-accent); opacity: 1; }
