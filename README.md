@@ -143,6 +143,21 @@ Both Netlify and Vercel let you add your own domain (e.g. `coremotorsrewa.in`) f
 
 ---
 
+## Logo & icons
+
+All brand files are in `public/` (and online at `yourdomain/logo.png` etc. once deployed):
+
+| File | Use it for |
+| --- | --- |
+| `logo.png` / `logo.svg` | Dark backgrounds: social media, WhatsApp display picture, signage mock-ups |
+| `logo-light-bg.png` / `logo-light-bg.svg` | White backgrounds: letterheads, invoices, print |
+| `favicon.ico`, `favicon.svg` | Browser tab icon |
+| `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png` | Home-screen icons on iPhone / Android |
+
+The SVGs are vector, so they print sharp at any size, even on a shop board.
+
+On the website the logo is drawn in code from `src/components/brandMark.js` (car outline + wheel) and `brandTextPath.js` (the "ORE MOTORS" letters as shapes). To make the car blue like your sign board, change `car: '#E10600'` to `car: '#1e6fe0'` in `brandMark.js`. That updates the website logo and the sand animation. The files in `public/` are pre-made images, so ask for them to be regenerated after a colour change.
+
 ## Project structure
 
 ```

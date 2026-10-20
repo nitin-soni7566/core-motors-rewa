@@ -47,7 +47,7 @@ export default function IntroSplash() {
     }
   }, [visible, hide])
 
-  const handleFormed = useCallback(() => setTimeout(hide, 1200), [hide])
+  const handleFormed = useCallback(() => setTimeout(hide, 900), [hide])
 
   return (
     <AnimatePresence>

@@ -1,4 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#E10600"/>
-  <text x="32" y="42" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="28" font-weight="800" fill="#fff">CM</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1c1f"/><stop offset="1" stop-color="#0a0a0b"/></linearGradient></defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <g transform="translate(32 32) scale(0.4923) translate(-80 -166)"><g fill="#e9e9ec" stroke="#e9e9ec" stroke-linecap="round">
+    <path d="M123.10995377286216 136.92196901952116 A52 52 0 1 0 123.10995377286216 195.07803098047884 L111.50342775709159 187.2493303318884 A38 38 0 1 1 111.50342775709159 144.7506696681116 Z" stroke="none"/>
+    <circle cx="80" cy="166" r="30" fill="none" stroke-width="5"/>
+    <line x1="80.00" y1="159.00" x2="80.00" y2="136.00" stroke-width="7"/><line x1="86.66" y1="163.84" x2="108.53" y2="156.73" stroke-width="7"/><line x1="84.11" y1="171.66" x2="97.63" y2="190.27" stroke-width="7"/><line x1="75.89" y1="171.66" x2="62.37" y2="190.27" stroke-width="7"/><line x1="73.34" y1="163.84" x2="51.47" y2="156.73" stroke-width="7"/>
+    <circle cx="80" cy="166" r="7" fill="#E10600" stroke="none"/>
+  </g></g>
 </svg>

@@ -13,6 +13,7 @@ function siteMetaPlugin() {
     name: s.name,
     description: s.description,
     url: s.siteUrl,
+    logo: `${s.siteUrl}/logo.png`,
     image: s.ogImage,
     telephone: s.phone,
     email: s.email,

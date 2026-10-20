@@ -37,7 +37,8 @@ const facts = [
 ]
 
 // Transparent background: a soft shadow keeps the particles readable over bright photos
-const heroSandShadow = '[filter:drop-shadow(0_2px_3px_rgba(0,0,0,0.85))_drop-shadow(0_0_18px_rgba(0,0,0,0.55))]'
+// (a static gradient, not a CSS filter — filters are recomputed every animation frame)
+const heroSandBackdrop = 'bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.3)_45%,transparent_72%)]'
 
 const rise = (delay) => ({
   initial: { opacity: 0, y: 30 },
@@ -63,7 +64,7 @@ export default function Hero() {
         autoplay={{ delay: 6500, disableOnInteraction: false }}
         onSwiper={setSwiper}
         onSlideChange={(s) => setActive(s.realIndex)}
-        className="h-[calc(100svh-4rem)] max-h-[880px] min-h-[700px] md:h-[calc(100svh-7.5rem)] xl:min-h-[600px]"
+        className="h-[calc(100svh-4rem)] max-h-[880px] min-h-[750px] md:h-[calc(100svh-7.5rem)] xl:min-h-[600px]"
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={slide.key}>
@@ -82,7 +83,7 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" aria-hidden="true" />
                 <div className="relative container-x flex h-full items-center">
                   {isActive && (
-                    <div className="max-w-2xl pt-32 pb-28 text-white md:pt-36 md:pb-24 xl:pt-0">
+                    <div className="max-w-2xl pt-44 pb-28 text-white md:pt-52 md:pb-24 xl:pt-0">
                       <motion.span
                         {...rise(0)}
                         className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-[0.2em] uppercase backdrop-blur-md"
@@ -128,13 +129,13 @@ export default function Hero() {
       {/* Sand-particle brand mark (transparent): compact at the top below 1280px, top-right on wide screens */}
       <div className="pointer-events-none absolute inset-x-0 top-5 z-10 md:top-7 xl:hidden">
         <div className="container-x">
-          <div className="pointer-events-auto mx-auto h-[104px] max-w-md md:h-[124px]">
-            <SandName play={introDone} label={null} className={heroSandShadow} />
+          <div className={`pointer-events-auto mx-auto h-[150px] max-w-md md:h-[170px] ${heroSandBackdrop}`}>
+            <SandName play={introDone} label={null} fillHeight={0.92} />
           </div>
         </div>
       </div>
-      <div className="absolute top-[8%] right-8 z-10 hidden h-[240px] w-[520px] xl:block 2xl:right-10 2xl:h-[270px] 2xl:w-[600px]">
-        <SandName play={introDone} label={null} className={heroSandShadow} />
+      <div className={`absolute top-[8%] right-8 z-10 hidden h-[240px] w-[520px] xl:block 2xl:right-10 2xl:h-[270px] 2xl:w-[600px] ${heroSandBackdrop}`}>
+        <SandName play={introDone} label={null} fillHeight={0.92} />
       </div>
 
       {/* Bottom glass bar: quick facts + slide controls */}
