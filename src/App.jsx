@@ -7,6 +7,7 @@ import WhatsAppButton from './components/WhatsAppButton.jsx'
 import MobileCallBar from './components/MobileCallBar.jsx'
 import BookingModal from './components/BookingModal.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
+import IntroSplash from './components/IntroSplash.jsx'
 import Home from './pages/Home.jsx'
 import { useLang } from './context/LanguageContext.jsx'
 
@@ -32,6 +33,7 @@ export default function App() {
   const { t } = useLang()
   return (
     <>
+      <IntroSplash />
       <ScrollToTop />
       <a
         href="#main"

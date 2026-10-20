@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, EffectFade } from 'swiper/modules'
 import { motion } from 'framer-motion'
@@ -7,6 +7,8 @@ import { unsplash } from '../data/images.js'
 import { siteConfig, telLink } from '../data/siteConfig.js'
 import { useBooking } from '../context/BookingContext.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
+import { isIntroDone, subscribeIntro } from '../context/introStore.js'
+import SandName from './SandName.jsx'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 
@@ -34,6 +36,9 @@ const facts = [
   { icon: Truck, key: 'hero.fact3' },
 ]
 
+// Transparent background: a soft shadow keeps the particles readable over bright photos
+const heroSandShadow = '[filter:drop-shadow(0_2px_3px_rgba(0,0,0,0.85))_drop-shadow(0_0_18px_rgba(0,0,0,0.55))]'
+
 const rise = (delay) => ({
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
@@ -45,6 +50,7 @@ export default function Hero() {
   const { t, tx } = useLang()
   const [active, setActive] = useState(0)
   const [swiper, setSwiper] = useState(null)
+  const introDone = useSyncExternalStore(subscribeIntro, isIntroDone)
 
   return (
     <section aria-label={t('hero.label')} className="relative overflow-hidden bg-charcoal">
@@ -57,7 +63,7 @@ export default function Hero() {
         autoplay={{ delay: 6500, disableOnInteraction: false }}
         onSwiper={setSwiper}
         onSlideChange={(s) => setActive(s.realIndex)}
-        className="h-[calc(100svh-4rem)] max-h-[880px] min-h-[600px] md:h-[calc(100svh-7.5rem)]"
+        className="h-[calc(100svh-4rem)] max-h-[880px] min-h-[700px] md:h-[calc(100svh-7.5rem)] xl:min-h-[600px]"
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={slide.key}>
@@ -76,7 +82,7 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" aria-hidden="true" />
                 <div className="relative container-x flex h-full items-center">
                   {isActive && (
-                    <div className="max-w-2xl pb-32 text-white md:pb-24">
+                    <div className="max-w-2xl pt-32 pb-28 text-white md:pt-36 md:pb-24 xl:pt-0">
                       <motion.span
                         {...rise(0)}
                         className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-[0.2em] uppercase backdrop-blur-md"
@@ -119,11 +125,23 @@ export default function Hero() {
         ))}
       </Swiper>
 
+      {/* Sand-particle brand mark (transparent): compact at the top below 1280px, top-right on wide screens */}
+      <div className="pointer-events-none absolute inset-x-0 top-5 z-10 md:top-7 xl:hidden">
+        <div className="container-x">
+          <div className="pointer-events-auto mx-auto h-[104px] max-w-md md:h-[124px]">
+            <SandName play={introDone} label={null} className={heroSandShadow} />
+          </div>
+        </div>
+      </div>
+      <div className="absolute top-[8%] right-8 z-10 hidden h-[240px] w-[520px] xl:block 2xl:right-10 2xl:h-[270px] 2xl:w-[600px]">
+        <SandName play={introDone} label={null} className={heroSandShadow} />
+      </div>
+
       {/* Bottom glass bar: quick facts + slide controls */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10">
         <div className="container-x pb-6 md:pb-8">
           <div className="pointer-events-auto flex items-end justify-between gap-6">
-            <ul className="hidden flex-1 grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-xl md:grid lg:max-w-3xl">
+            <ul className="hidden flex-1 grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-xl lg:grid lg:max-w-3xl">
               {facts.map((f, i) => (
                 <li key={f.key} className={`flex items-center gap-3 px-5 py-4 ${i ? 'border-l border-white/10' : ''}`}>
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/90 text-white">
