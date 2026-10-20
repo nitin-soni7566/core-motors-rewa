@@ -340,8 +340,8 @@ export default function SandName({ className = '', onFormed, play = true, label 
       for (const p of particles) {
         if (elapsed > p.delay) {
           // spring towards target, pushed away from the pointer
-          let ax = (p.tx - p.x) * 0.075
-          let ay = (p.ty - p.y) * 0.075
+          let ax = (p.tx - p.x) * 0.14
+          let ay = (p.ty - p.y) * 0.14
           const dx = p.x - pointer.x
           const dy = p.y - pointer.y
           const d2 = dx * dx + dy * dy
@@ -350,22 +350,22 @@ export default function SandName({ className = '', onFormed, play = true, label 
             ax += dx * f * 0.25
             ay += dy * f * 0.25
           }
-          p.vx = (p.vx + ax) * 0.8
-          p.vy = (p.vy + ay) * 0.8
+          p.vx = (p.vx + ax) * 0.72
+          p.vy = (p.vy + ay) * 0.72
           p.x += p.vx
           p.y += p.vy
         }
-        if (Math.abs(p.tx - p.x) < 0.3 && Math.abs(p.ty - p.y) < 0.3 && Math.abs(p.vx) + Math.abs(p.vy) < 0.05) settled++
+        if (Math.abs(p.tx - p.x) < 0.6 && Math.abs(p.ty - p.y) < 0.6 && Math.abs(p.vx) + Math.abs(p.vy) < 0.2) settled++
       }
       draw()
 
       const ratio = particles.length ? settled / particles.length : 0
-      if (!formedFired && ratio > 0.97) {
+      if (!formedFired && ratio > 0.95) {
         formedFired = true
         onFormedRef.current?.()
       }
       // At rest and no pointer nearby: snap the last stragglers into place and pause to save battery.
-      if (ratio >= 0.995 && pointer.x < -999) {
+      if (ratio >= 0.98 && pointer.x < -999) {
         for (const p of particles) {
           p.x = p.tx
           p.y = p.ty
@@ -406,8 +406,8 @@ export default function SandName({ className = '', onFormed, play = true, label 
         if (old) return { ...old, tx: t.x, ty: t.y, color: t.color, size: t.size, glow: t.glow }
         return {
           // grains blow in from just below and around the logo
-          x: reduceMotion ? t.x : t.x + (Math.random() - 0.5) * w * 0.6,
-          y: reduceMotion ? t.y : h * 0.55 + Math.random() * h * 0.7,
+          x: reduceMotion ? t.x : t.x + (Math.random() - 0.5) * w * 0.35,
+          y: reduceMotion ? t.y : t.y + h * 0.25 + Math.random() * h * 0.45,
           vx: 0,
           vy: 0,
           tx: t.x,
@@ -415,7 +415,7 @@ export default function SandName({ className = '', onFormed, play = true, label 
           color: t.color,
           size: t.size,
           glow: t.glow,
-          delay: reduceMotion ? 0 : (t.x / w) * 400 + Math.random() * 250, // quick left-to-right sweep
+          delay: reduceMotion ? 0 : (t.x / w) * 200 + Math.random() * 120, // quick left-to-right sweep
         }
       })
       groups = groupByColor(particles)

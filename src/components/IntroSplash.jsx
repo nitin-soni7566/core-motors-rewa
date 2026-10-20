@@ -47,7 +47,7 @@ export default function IntroSplash() {
     }
   }, [visible, hide])
 
-  const handleFormed = useCallback(() => setTimeout(hide, 900), [hide])
+  const handleFormed = useCallback(() => setTimeout(hide, 500), [hide])
 
   return (
     <AnimatePresence>
@@ -56,7 +56,7 @@ export default function IntroSplash() {
           className="glow fixed inset-0 z-[100] bg-charcoal"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           aria-label="Core Motors Rewa"
         >
           <div className="grid-lines absolute inset-0" aria-hidden="true" />
