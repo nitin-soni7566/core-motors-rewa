@@ -4,15 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>__TITLE__</title>
-    <!-- Apply saved theme + language before first paint (no white flash in dark mode) -->
-    <script>
-      try {
-        var t = localStorage.getItem('cm-theme')
-        if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))
-          document.documentElement.classList.add('dark')
-        if (localStorage.getItem('cm-lang') === 'hi') document.documentElement.lang = 'hi'
-      } catch (e) {}
-    </script>
     <meta name="description" content="__DESCRIPTION__" data-rh="true" />
     <meta name="theme-color" content="__THEME__" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
@@ -27,7 +18,7 @@
     <meta property="og:locale:alternate" content="hi_IN" />
     <meta property="og:title" content="__TITLE__" data-rh="true" />
     <meta property="og:description" content="__DESCRIPTION__" data-rh="true" />
-    <meta property="og:url" content="__SITE_URL__" data-rh="true" />
+    <meta property="og:url" content="__SITE_URL__/" data-rh="true" />
     <meta property="og:image" content="__OG_IMAGE__" data-rh="true" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -36,14 +27,26 @@
     <meta name="twitter:description" content="__DESCRIPTION__" data-rh="true" />
     <meta name="twitter:image" content="__OG_IMAGE__" data-rh="true" />
 
-    <!-- Fonts -->
+    <!-- Fonts (applied by /boot.js so they don't block the first paint) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      data-fonts
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+      />
+    </noscript>
+
+    <!-- Theme/language before first paint, hero image preload, fonts. Must stay after the tags above. -->
+    <meta name="cm-hero-srcset" content="__HERO_SRCSET__" />
+    <script src="/boot.js"></script>
 
     <!-- Structured data (generated from src/data/siteConfig.js at build time) -->
     <script type="application/ld+json">

@@ -8,6 +8,7 @@ import Logo from './Logo.jsx'
 import SocialIcons from './SocialIcons.jsx'
 
 const YEAR = new Date().getFullYear()
+const DEVELOPER_EMAIL = 'nitinsoni815@gmail.com'
 
 const quickLinks = [
   { to: '/about', key: 'footer.aboutUs' },
@@ -19,7 +20,7 @@ const quickLinks = [
 ]
 
 function FooterHeading({ children }) {
-  return <h3 className="mb-6 text-[11px] font-semibold tracking-[0.25em] text-neutral-500 uppercase">{children}</h3>
+  return <h2 className="mb-6 text-[11px] font-semibold tracking-[0.25em] text-neutral-400 uppercase">{children}</h2>
 }
 
 export default function Footer() {
@@ -105,11 +106,17 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-2 border-t border-white/10 py-6 text-center text-xs text-neutral-500 sm:flex-row sm:text-left">
-          <p>
+        <div className="flex flex-col items-center justify-between gap-2 border-t border-white/10 py-6 text-center text-xs text-neutral-400 sm:flex-row sm:text-left">
+          <p suppressHydrationWarning>
             © {YEAR} {siteConfig.name}. {t('footer.rights')}
           </p>
           <p>{t('footer.tagline')}</p>
+          <p>
+            {t('footer.developer')}{' '}
+            <a href={`mailto:${DEVELOPER_EMAIL}`} className="text-neutral-300 underline-offset-2 hover:text-white hover:underline">
+              {DEVELOPER_EMAIL}
+            </a>
+          </p>
         </div>
       </div>
     </footer>

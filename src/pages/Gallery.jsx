@@ -39,7 +39,7 @@ export default function Gallery() {
                 }`}
               >
                 {t(`gallery.cat.${cat}`)}
-                <span className="ml-1.5 text-xs opacity-60">
+                <span className="ml-1.5 text-xs">
                   {cat === 'All' ? gallery.length : gallery.filter((g) => g.category === cat).length}
                 </span>
               </button>

@@ -9,6 +9,7 @@ import SectionTitle from '../components/SectionTitle.jsx'
 import { WhatsAppIcon } from '../components/WhatsAppButton.jsx'
 import { getServiceBySlug, services } from '../data/services.js'
 import { siteConfig, telLink, whatsappLink } from '../data/siteConfig.js'
+import { srcSet } from '../data/images.js'
 import { useBooking } from '../context/BookingContext.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
 import NotFound from './NotFound.jsx'
@@ -43,7 +44,13 @@ export default function ServiceDetail() {
         <div className="container-x grid gap-12 lg:grid-cols-3 lg:gap-14">
           <div className="lg:col-span-2">
             <Reveal>
-              <img src={service.image} alt={tx(service.alt)} className="aspect-[16/9] w-full rounded-3xl object-cover shadow-2xl" />
+              <img
+                src={service.image}
+                srcSet={srcSet(service.image, [640, 960, 1200])}
+                sizes="(min-width: 1280px) 800px, (min-width: 1024px) 62vw, calc(100vw - 32px)"
+                alt={tx(service.alt)}
+                className="aspect-[16/9] w-full rounded-3xl object-cover shadow-2xl"
+              />
             </Reveal>
             <Reveal className="mt-12">
               <div className="flex items-center gap-4">
@@ -87,7 +94,7 @@ export default function ServiceDetail() {
                   href={whatsappLink(t('detail.waMessage', { service: title }))}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn w-full bg-[#25D366] text-white hover:-translate-y-0.5 hover:brightness-95"
+                  className="btn w-full bg-[#25D366] text-charcoal hover:-translate-y-0.5 hover:brightness-95"
                 >
                   <WhatsAppIcon className="h-4 w-4" /> {t('common.whatsapp')}
                 </a>

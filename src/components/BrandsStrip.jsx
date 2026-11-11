@@ -14,7 +14,7 @@ export default function BrandsStrip() {
             <li
               key={`${brand}-${i}`}
               aria-hidden={i >= brands.length ? 'true' : undefined}
-              className="flex items-center font-heading text-xl font-semibold tracking-tight whitespace-nowrap text-ink/35 transition-colors duration-300 hover:text-ink md:text-2xl"
+              className="flex items-center font-heading text-xl font-semibold tracking-tight whitespace-nowrap text-ink/60 transition-colors duration-300 hover:text-ink md:text-2xl"
             >
               <span className="px-8 md:px-10">{brand}</span>
               <span className="h-1.5 w-1.5 rotate-45 bg-accent/60" aria-hidden="true" />

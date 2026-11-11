@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
+import { useMounted } from '../hooks/useMounted.js'
 
 const base =
   'relative flex h-10 shrink-0 items-center justify-center overflow-hidden rounded-full border transition-colors duration-300'
@@ -10,7 +11,8 @@ const base =
 export function ThemeToggle({ className = '', onDark = true }) {
   const { theme, toggleTheme } = useTheme()
   const { t } = useLang()
-  const dark = theme === 'dark'
+  // The pre-rendered HTML can't know the visitor's saved theme, so show the light-mode icon until mounted
+  const dark = useMounted() && theme === 'dark'
   return (
     <button
       type="button"
@@ -36,7 +38,7 @@ export function ThemeToggle({ className = '', onDark = true }) {
   )
 }
 
-// Segmented EN | हि switch
+// Segmented EN | हि switch. Each button's accessible name starts with its visible text (WCAG 2.5.3).
 export function LangToggle({ className = '', onDark = true }) {
   const { lang, setLang, t } = useLang()
   const pillId = useId() // unique per instance (navbar + mobile menu render one each)
@@ -58,7 +60,7 @@ export function LangToggle({ className = '', onDark = true }) {
             lang={l.code}
             onClick={() => setLang(l.code)}
             aria-pressed={active}
-            aria-label={l.name}
+            aria-label={`${l.label} – ${l.name}`}
             className={`relative z-10 h-full min-w-9 rounded-full px-2.5 text-xs font-semibold transition-colors duration-300 ${
               active ? 'text-white' : onDark ? 'text-neutral-400 hover:text-white' : 'text-muted hover:text-ink'
             }`}

@@ -14,7 +14,7 @@ const readStored = () => {
 export function ThemeProvider({ children }) {
   // index.html sets the initial class before React loads, so there is no flash
   const [theme, setTheme] = useState(() =>
-    document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark') ? 'dark' : 'light',
   )
 
   useEffect(() => {

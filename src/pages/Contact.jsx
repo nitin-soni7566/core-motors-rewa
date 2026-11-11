@@ -70,7 +70,7 @@ export default function Contact() {
                 {siteConfig.hours.map((h) => (
                   <div key={h.days.en} className="flex justify-between gap-4 py-3.5 text-sm">
                     <dt className="text-neutral-300">{tx(h.days)}</dt>
-                    <dd className={h.closed ? 'font-semibold text-accent' : 'font-semibold'}>{tx(h.time)}</dd>
+                    <dd className={h.closed ? 'font-semibold text-accent-light' : 'font-semibold'}>{tx(h.time)}</dd>
                   </div>
                 ))}
               </dl>

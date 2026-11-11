@@ -9,7 +9,7 @@ It's a fully static site with no server and no database. Bookings go straight to
 
 ## 1. Run it on your computer
 
-You need [Node.js](https://nodejs.org) version 20 or newer.
+You need [Node.js](https://nodejs.org) version 20.19+ or 22.12+ (required by Vite 8).
 
 ```bash
 npm install        # first time only
@@ -24,7 +24,7 @@ Other commands:
 | `npm run preview` | Serves the built `dist/` folder locally so you can check it      |
 | `npm run lint`    | Checks the code for problems                                     |
 
-`npm run build` also regenerates `public/sitemap.xml` and `public/robots.txt` automatically.
+`npm run build` also regenerates `public/sitemap.xml` and `public/robots.txt` automatically, and prints a **warning listing any placeholder values** still in `siteConfig.js` (e.g. generic social links). Placeholders are kept out of the Google schema automatically.
 
 ---
 
@@ -43,7 +43,7 @@ Replace these placeholders:
 | `address`      | `Core Motors, [Street]`        | Your real street address        |
 | `geo`          | Rewa city centre               | Your workshop's latitude/longitude |
 | `mapEmbedUrl`  | Rewa city search               | See below                       |
-| `siteUrl`      | `https://coremotorsrewa.in`    | Your real domain                |
+| `siteUrl`      | `https://coremotors.in`        | Your real domain                |
 | `socials`      | Generic Facebook/Instagram/YouTube | Your page links (use `''` to hide an icon) |
 | `stats`        | 5000 / 12000 / 10 / 15         | Your real numbers               |
 
@@ -99,7 +99,7 @@ image: '/images/periodic-service.jpg',
 3. Update the `alt` text (`{ en, hi }`) to describe the photo. It helps both SEO and visually impaired visitors.
 4. If customers' cars appear in your photos, blur the number plates before uploading.
 
-Hero slider images are in `src/components/Hero.jsx`. The About page images are in `src/pages/About.jsx`.
+Hero slider images are in `src/data/hero.js` (the first one is preloaded automatically). The About page images are in `src/pages/About.jsx`.
 Your own photos of real work will look far better and build more trust than stock images.
 
 ---
@@ -122,7 +122,7 @@ No data is stored anywhere, so there is no server to maintain.
 
 *No Git?* Run `npm run build` and drag the `dist/` folder onto [app.netlify.com/drop](https://app.netlify.com/drop).
 
-`public/_redirects` is already included, so refreshing pages like `/services/tyres` won't show a 404.
+`npm run build` writes a ready-made HTML file for every page (so Google, AI assistants and WhatsApp/Facebook previews see the real content) plus a Netlify `_redirects` file: every page works on refresh, and unknown addresses get a proper 404 page.
 
 ### Option B: Vercel
 
@@ -130,11 +130,17 @@ No data is stored anywhere, so there is no server to maintain.
 2. Go to [vercel.com/new](https://vercel.com/new) → import the repo. Vercel detects Vite automatically (build: `npm run build`, output: `dist`).
 3. Click **Deploy**.
 
-`vercel.json` is already included for page-refresh support.
+`vercel.json` is already included (security headers). Pages are served from the pre-rendered HTML files; unknown addresses get `404.html`.
 
 ### Custom domain
 
-Both Netlify and Vercel let you add your own domain (e.g. `coremotorsrewa.in`) for free under **Domain settings**. Make sure `siteUrl` in `siteConfig.js` matches it, then redeploy.
+Both Netlify and Vercel let you add your own domain (e.g. `coremotors.in`) for free under **Domain settings**. Make sure `siteUrl` in `siteConfig.js` matches it, then redeploy.
+
+### Security headers
+
+`vercel.json` (Vercel) and `public/_headers` (Netlify) send security headers, including a **Content-Security-Policy** that only allows this site's own scripts, Google Fonts, Unsplash images and the Google Maps embed. Keep the two files in sync.
+
+If you later add anything from another website (Google Analytics, a chat widget, images hosted elsewhere…), add its domain to the matching part of the policy in **both** files, or the browser will block it. Test with `npm run build` and check the browser console for "Refused to load" messages.
 
 ### After going live
 
@@ -161,10 +167,11 @@ On the website the logo is drawn in code from `src/components/brandMark.js` (car
 ## Project structure
 
 ```
-public/            favicon, _redirects, robots.txt, sitemap.xml (auto-generated)
-scripts/           generate-seo-files.js (runs before every build)
+public/            favicon, boot.js (theme/fonts/hero preload, runs before paint), _headers, _redirects,
+                   robots.txt, sitemap.xml (auto-generated)
+scripts/           generate-seo-files.js (runs before every build), placeholders.js (launch check)
 src/
-  data/            siteConfig.js, services.js, reviews.js, faqs.js, gallery.js, brands.js
+  data/            siteConfig.js, hero.js, services.js, reviews.js, faqs.js, gallery.js, brands.js, images.js
   components/      Navbar, TopBar, Footer, Hero, ServiceCard, Counter, Reviews, Gallery,
                    Lightbox, FAQ, CTA, BookingForm, BookingModal, WhatsAppButton, ...
   context/         BookingContext (booking pop-up), ThemeContext (light/dark), LanguageContext (EN/HI)
@@ -174,6 +181,12 @@ src/
 index.html         SEO tags + AutoRepair schema (filled in from siteConfig at build time)
 vite.config.js     Vite + Tailwind + the plugin that injects siteConfig into index.html
 ```
+
+### Adding a new page
+
+Add the route in `src/App.jsx` **and** in `scripts/routes.js`. That list drives the sitemap, the pre-rendered HTML and the Netlify redirects, so a page missing from it won't be pre-rendered and will return 404 on Netlify.
+
+Code that uses `window`, `document` or `localStorage` must run inside `useEffect` or an event handler, never while rendering, because every page is also rendered at build time in Node.
 
 To open the booking pop-up from any component:
 

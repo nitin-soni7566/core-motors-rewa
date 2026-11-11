@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import TopBar from './components/TopBar.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
@@ -8,6 +8,7 @@ import MobileCallBar from './components/MobileCallBar.jsx'
 import BookingModal from './components/BookingModal.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import IntroSplash from './components/IntroSplash.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 import Home from './pages/Home.jsx'
 import { useLang } from './context/LanguageContext.jsx'
 
@@ -23,7 +24,7 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 function PageFallback() {
   const { t } = useLang()
   return (
-    <div className="flex min-h-[60vh] items-center justify-center" role="status" aria-label={t('common.loading')}>
+    <div className="flex min-h-screen items-center justify-center" role="status" aria-label={t('common.loading')}>
       <span className="h-10 w-10 animate-spin rounded-full border-4 border-line border-t-accent" />
     </div>
   )
@@ -31,6 +32,7 @@ function PageFallback() {
 
 export default function App() {
   const { t } = useLang()
+  const { pathname } = useLocation()
   return (
     <>
       <IntroSplash />
@@ -44,19 +46,22 @@ export default function App() {
       <TopBar />
       <Navbar />
       <main id="main" className="pb-16 md:pb-0">
-        <Suspense fallback={<PageFallback />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:slug" element={<ServiceDetail />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+        {/* keyed by path so moving to another page clears a previous error */}
+        <ErrorBoundary key={pathname}>
+          <Suspense fallback={<PageFallback />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:slug" element={<ServiceDetail />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <Footer />
       <WhatsAppButton />

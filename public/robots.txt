@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://coremotorsrewa.in/sitemap.xml
+Sitemap: https://coremotors.in/sitemap.xml

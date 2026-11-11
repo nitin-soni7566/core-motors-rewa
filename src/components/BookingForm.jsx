@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CheckCircle2, Send } from 'lucide-react'
 import { brands } from '../data/brands.js'
 import { services } from '../data/services.js'
-import { siteConfig } from '../data/siteConfig.js'
+import { siteConfig, whatsappLink } from '../data/siteConfig.js'
 import { useLang } from '../context/LanguageContext.jsx'
 
 const today = () => {
@@ -22,6 +22,8 @@ const emptyForm = (service = '') => ({
   date: '',
   message: '',
 })
+
+const REQUIRED = new Set(['name', 'phone', 'brand', 'service', 'date'])
 
 // Accepts 10-digit Indian mobiles, optionally prefixed with +91, 91 or 0.
 const normalisePhone = (value) => value.replace(/[\s-]/g, '').replace(/^(\+?91|0)(?=\d{10}$)/, '')
@@ -64,11 +66,11 @@ function Field({ id, label, required, error, children }) {
   return (
     <div>
       <label htmlFor={id} className="label">
-        {label} {required && <span className="text-accent">*</span>}
+        {label} {required && <span className="text-accent dark:text-accent-light" aria-hidden="true">*</span>}
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-accent" role="alert">
+        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-accent dark:text-accent-light" role="alert">
           {error}
         </p>
       )}
@@ -94,6 +96,7 @@ export default function BookingForm({ defaultService = '', onSuccess }) {
       if (errors[name]) setErrors(({ [name]: _removed, ...rest }) => rest)
     },
     className: `input ${errors[name] ? 'input-error' : ''}`,
+    'aria-required': REQUIRED.has(name) ? 'true' : undefined,
     'aria-invalid': errors[name] ? 'true' : undefined,
     'aria-describedby': errors[name] ? `${id(name)}-error` : undefined,
   })
@@ -106,7 +109,7 @@ export default function BookingForm({ defaultService = '', onSuccess }) {
       document.getElementById(id(Object.keys(found)[0]))?.focus()
       return
     }
-    const url = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(buildMessage(values))}`
+    const url = whatsappLink(buildMessage(values))
     window.open(url, '_blank', 'noopener,noreferrer')
     setSubmitted(url)
     setValues(emptyForm(defaultService))
@@ -129,7 +132,7 @@ export default function BookingForm({ defaultService = '', onSuccess }) {
           <h3 className="mt-5 text-2xl font-semibold text-ink">{t('form.success.title')}</h3>
           <p className="mx-auto mt-2 max-w-sm text-sm text-muted">{t('form.success.text')}</p>
           <div className="mt-6 flex flex-col items-center gap-3">
-            <a href={submitted} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent underline">
+            <a href={submitted} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent underline dark:text-accent-light">
               {t('form.success.retry')}
             </a>
             <button type="button" onClick={() => setSubmitted(null)} className="btn-dark">

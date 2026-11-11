@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, ChevronDown, Menu, Phone, X } from 'lucide-react'
+import { useDialogFocus } from '../hooks/useDialogFocus.js'
 import { services } from '../data/services.js'
 import { siteConfig, telLink } from '../data/siteConfig.js'
 import { useBooking } from '../context/BookingContext.jsx'
@@ -33,6 +34,8 @@ export default function Navbar() {
   const { t, tx } = useLang()
   const { pathname } = useLocation()
   const closeTimer = useRef()
+  const menuRef = useRef(null)
+  useDialogFocus(menuRef, mobileOpen)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -191,6 +194,7 @@ export default function Navbar() {
               aria-hidden="true"
             />
             <motion.aside
+              ref={menuRef}
               id="mobile-menu"
               role="dialog"
               aria-modal="true"
@@ -208,7 +212,7 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-white/10"
                   aria-label={t('nav.closeMenu')}
-                  autoFocus
+                  data-autofocus
                 >
                   <X className="h-6 w-6" />
                 </button>
@@ -229,7 +233,7 @@ export default function Navbar() {
                           <NavLink
                             to={link.to}
                             end
-                            className={({ isActive }) => `block flex-1 py-4 font-heading text-lg ${isActive ? 'text-accent' : ''}`}
+                            className={({ isActive }) => `block flex-1 py-4 font-heading text-lg ${isActive ? 'text-accent-light' : ''}`}
                           >
                             {t(link.key)}
                           </NavLink>
@@ -255,7 +259,7 @@ export default function Navbar() {
                                 <li key={s.slug}>
                                   <Link
                                     to={`/services/${s.slug}`}
-                                    className="flex items-center gap-3 py-2.5 pl-2 text-sm text-neutral-300 hover:text-accent"
+                                    className="flex items-center gap-3 py-2.5 pl-2 text-sm text-neutral-300 hover:text-accent-light"
                                   >
                                     <ServiceIcon name={s.icon} className="h-4 w-4 text-accent" />
                                     {tx(s.title)}
@@ -271,7 +275,7 @@ export default function Navbar() {
                       <NavLink
                         to={link.to}
                         end={link.to === '/'}
-                        className={({ isActive }) => `block py-4 font-heading text-lg ${isActive ? 'text-accent' : ''}`}
+                        className={({ isActive }) => `block py-4 font-heading text-lg ${isActive ? 'text-accent-light' : ''}`}
                       >
                         {t(link.key)}
                       </NavLink>

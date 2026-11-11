@@ -1,10 +1,10 @@
 import { useState, useSyncExternalStore } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, EffectFade } from 'swiper/modules'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, BadgeCheck, Car, Phone, Truck } from 'lucide-react'
-import { unsplash } from '../data/images.js'
-import { siteConfig, telLink } from '../data/siteConfig.js'
+import { heroSlides as slides, heroSrcSet } from '../data/hero.js'
+import { telLink } from '../data/siteConfig.js'
 import { useBooking } from '../context/BookingContext.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
 import { isIntroDone, subscribeIntro } from '../context/introStore.js'
@@ -12,23 +12,6 @@ import SandName from './SandName.jsx'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 
-const slides = [
-  {
-    key: 'hero.1',
-    image: unsplash('1669971080123-4493adba7ba7', 1920),
-    alt: { en: 'White Kia Seltos with headlights on at dusk', hi: 'शाम के समय हेडलाइट जलाए सफ़ेद किआ सेल्टॉस' },
-  },
-  {
-    key: 'hero.2',
-    image: unsplash('1727229428005-fcc8feaa2e41', 1920),
-    alt: { en: 'Glossy red Hyundai Kona driving on a city road', hi: 'शहर की सड़क पर चलती चमकदार लाल ह्युंडई कोना' },
-  },
-  {
-    key: 'hero.3',
-    image: unsplash('1657179724285-d347db4c73a7', 1920),
-    alt: { en: 'Kia Seltos under soft studio lighting', hi: 'स्टूडियो लाइट में किआ सेल्टॉस' },
-  },
-]
 
 const facts = [
   { icon: Car, key: 'hero.fact1' },
@@ -51,7 +34,8 @@ export default function Hero() {
   const { t, tx } = useLang()
   const [active, setActive] = useState(0)
   const [swiper, setSwiper] = useState(null)
-  const introDone = useSyncExternalStore(subscribeIntro, isIntroDone)
+  const introDone = useSyncExternalStore(subscribeIntro, isIntroDone, () => false)
+  const reduceMotion = useReducedMotion() // no auto-advancing slides for visitors who ask for less motion
 
   return (
     <section aria-label={t('hero.label')} className="relative overflow-hidden bg-charcoal">
@@ -61,7 +45,7 @@ export default function Hero() {
         fadeEffect={{ crossFade: true }}
         loop
         speed={1100}
-        autoplay={{ delay: 6500, disableOnInteraction: false }}
+        autoplay={reduceMotion ? false : { delay: 6500, disableOnInteraction: false }}
         onSwiper={setSwiper}
         onSlideChange={(s) => setActive(s.realIndex)}
         className="h-[calc(100svh-4rem)] max-h-[880px] min-h-[750px] md:h-[calc(100svh-7.5rem)] xl:min-h-[600px]"
@@ -72,6 +56,8 @@ export default function Hero() {
               <div className="relative h-full w-full">
                 <img
                   src={slide.image}
+                  srcSet={heroSrcSet(slide.image)}
+                  sizes="100vw"
                   alt={tx(slide.alt)}
                   className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[8000ms] ease-out ${
                     isActive ? 'scale-110' : 'scale-100'
@@ -82,7 +68,8 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/10" aria-hidden="true" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" aria-hidden="true" />
                 <div className="relative container-x flex h-full items-center">
-                  {isActive && (
+                  {/* before Swiper starts (and in the pre-rendered HTML) show the first slide's text */}
+                  {(isActive || (!swiper && i === 0)) && (
                     <div className="max-w-2xl pt-44 pb-28 text-white md:pt-52 md:pb-24 xl:pt-0">
                       <motion.span
                         {...rise(0)}
@@ -91,20 +78,16 @@ export default function Hero() {
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" aria-hidden="true" />
                         {t(`${slide.key}.eyebrow`)}
                       </motion.span>
-                      {(() => {
-                        const Heading = i === 0 ? motion.h1 : motion.p
-                        return (
-                          <Heading
-                            {...rise(0.12)}
-                            className="font-heading text-[2.6rem] leading-[1.05] font-semibold tracking-tight sm:text-6xl lg:text-7xl xl:text-[5.25rem]"
-                          >
-                            {t(`${slide.key}.title`)}{' '}
-                            <span className="bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">
-                              {t(`${slide.key}.accent`)}
-                            </span>
-                          </Heading>
-                        )
-                      })()}
+                      {/* Only the active slide's text is rendered, so the page always has exactly one <h1> */}
+                      <motion.h1
+                        {...rise(0.12)}
+                        className="font-heading text-[2.6rem] leading-[1.05] font-semibold tracking-tight sm:text-6xl lg:text-7xl xl:text-[5.25rem]"
+                      >
+                        {t(`${slide.key}.title`)}{' '}
+                        <span className="bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">
+                          {t(`${slide.key}.accent`)}
+                        </span>
+                      </motion.h1>
                       <motion.p {...rise(0.26)} className="mt-6 max-w-xl text-base leading-relaxed text-neutral-300 sm:text-lg">
                         {t(`${slide.key}.text`)}
                       </motion.p>
@@ -113,7 +96,7 @@ export default function Hero() {
                           {t('common.bookService')}
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                         </button>
-                        <a href={telLink} className="btn-outline" aria-label={t('common.call', { phone: siteConfig.phone })}>
+                        <a href={telLink} className="btn-outline">
                           <Phone className="h-4 w-4" aria-hidden="true" /> {t('common.callNow')}
                         </a>
                       </motion.div>
@@ -159,15 +142,14 @@ export default function Hero() {
             <div className="flex items-center gap-4 text-white">
               <span className="font-heading text-sm tabular-nums">
                 <span className="text-2xl font-semibold">{String(active + 1).padStart(2, '0')}</span>
-                <span className="text-neutral-500"> / {String(slides.length).padStart(2, '0')}</span>
+                <span className="text-neutral-400"> / {String(slides.length).padStart(2, '0')}</span>
               </span>
-              <div className="flex gap-1.5" role="tablist">
+              <div className="flex gap-1.5">
                 {slides.map((s, i) => (
                   <button
                     key={s.key}
                     type="button"
-                    role="tab"
-                    aria-selected={active === i}
+                    aria-current={active === i ? 'true' : undefined}
                     aria-label={`${i + 1} / ${slides.length}`}
                     onClick={() => swiper?.slideToLoop(i)}
                     className="relative h-1 w-10 overflow-hidden rounded-full bg-white/25"

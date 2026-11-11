@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ZoomIn } from 'lucide-react'
 import Lightbox from './Lightbox.jsx'
+import { resize, srcSet } from '../data/images.js'
 import { useLang } from '../context/LanguageContext.jsx'
 
 // Image grid with a lightbox. Pass a filtered list of gallery items.
@@ -29,7 +30,9 @@ export default function Gallery({ items, className = 'grid-cols-2 md:grid-cols-3
                 aria-label={t('gallery.view', { alt: tx(item.alt) })}
               >
                 <img
-                  src={item.image.replace('w=1600', 'w=600')}
+                  src={resize(item.image, 600)}
+                  srcSet={srcSet(item.image, [300, 450, 600, 900])}
+                  sizes="(min-width: 1280px) 400px, (min-width: 768px) calc(33vw - 32px), calc(50vw - 22px)"
                   alt={tx(item.alt)}
                   loading="lazy"
                   decoding="async"

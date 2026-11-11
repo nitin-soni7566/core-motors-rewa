@@ -47,7 +47,7 @@
   --card: #ffffff;
   --ink: #111111;
   --muted: #55555e;
-  --subtle: #8a8a94;
+  --subtle: #6e6e78; /* 5.0:1 on white (WCAG AA) */
   --line: #e7e7ea;
   color-scheme: light;
 }
@@ -59,7 +59,7 @@
   --card: #141417;
   --ink: #f5f5f6;
   --muted: #a3a3ad;
-  --subtle: #72727c;
+  --subtle: #82828c; /* 5.2:1 on the dark background (WCAG AA) */
   --line: #26262c;
   color-scheme: dark;
 }
@@ -148,6 +148,19 @@
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 56px 56px;
+}
+
+/* Cover shown before the intro splash takes over (set by public/boot.js, removed by IntroSplash) */
+html.intro-pending body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: #111111;
+  animation: intro-failsafe 0s linear 6s forwards; /* never hide the site if JavaScript fails */
+}
+@keyframes intro-failsafe {
+  to { visibility: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {

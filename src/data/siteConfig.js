@@ -13,38 +13,38 @@ export const siteConfig = {
     'Core Motors Rewa is a multi-brand car service centre in Rewa, Madhya Pradesh offering periodic service, engine repair, denting & painting, detailing, ceramic coating, PPF, AC repair and insurance claims.',
 
   // Live website address (used for sitemap, canonical & Open Graph links)
-  siteUrl: 'https://coremotorsrewa.in',
+  siteUrl: 'https://coremotors.in',
   ogImage: 'https://images.unsplash.com/photo-1669971080123-4493adba7ba7?auto=format&fit=crop&w=1200&h=630&q=75',
   themeColor: '#111111',
 
   // Contact
-  phone: '+91 XXXXX XXXXX', // shown on the site
-  phoneLink: '+91XXXXXXXXXX', // used for tel: links (no spaces)
-  whatsapp: '91XXXXXXXXXX', // country code + number, digits only
+  phone: '+91 98930 78888', // shown on the site
+  phoneLink: '+919893078888', // used for tel: links (no spaces)
+  whatsapp: '919893078888', // country code + number, digits only (same number as calls)
   whatsappMessage: 'Hi Core Motors, I would like to book a car service.',
-  email: 'info@coremotorsrewa.in',
+  email: 'support@coremotors.in',
 
   address: {
-    line1: 'Core Motors, [Street]',
-    street: '[Street]',
+    line1: 'In front of Subh Motors, Allahabad Road, Ratahara',
+    street: 'In front of Subh Motors, Allahabad Road, Ratahara',
     city: 'Rewa',
     state: 'Madhya Pradesh',
-    pin: '486001',
+    pin: '486001', // TODO: confirm the PIN code for Ratahara
   },
-  geo: { lat: 24.5362, lng: 81.3037 },
-  mapEmbedUrl: 'https://www.google.com/maps?q=Rewa,+Madhya+Pradesh+486001&output=embed',
-  mapLink: 'https://maps.google.com/?q=Rewa,+Madhya+Pradesh+486001',
+  // Exact workshop pin (from the owner's Google Maps link)
+  geo: { lat: 24.5456712, lng: 81.340673 },
+  mapEmbedUrl: 'https://www.google.com/maps?q=24.5456712,81.340673&z=17&hl=en&output=embed',
+  mapLink: 'https://www.google.com/maps?q=24.5456712,81.340673&z=17&hl=en',
 
   // Opening hours (displayed, in English and Hindi)
   hours: [
-    { days: { en: 'Monday – Saturday', hi: 'सोमवार – शनिवार' }, time: { en: '9:00 AM – 7:00 PM', hi: 'सुबह 9:00 – शाम 7:00' } },
-    { days: { en: 'Sunday', hi: 'रविवार' }, time: { en: 'Closed', hi: 'बंद' }, closed: true },
+    { days: { en: 'Monday – Sunday (open all days)', hi: 'सोमवार – रविवार (सभी दिन खुला)' }, time: { en: '10:00 AM – 7:00 PM', hi: 'सुबह 10:00 – शाम 7:00' } },
   ],
   // Opening hours (for Google schema, 24h format)
   hoursSchema: [
     {
-      days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      opens: '09:00',
+      days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '10:00',
       closes: '19:00',
     },
   ],
@@ -59,8 +59,8 @@ export const siteConfig = {
   // Numbers for the animated counters on the home page
   stats: [
     // label: key in src/i18n/translations.js
-    { label: 'stats.customers', value: 5000, suffix: '+' },
-    { label: 'stats.cars', value: 12000, suffix: '+' },
+    { label: 'stats.customers', value: 300, suffix: '+' },
+    { label: 'stats.cars', value: 400, suffix: '+' },
     { label: 'stats.years', value: 10, suffix: '+' },
     { label: 'stats.mechanics', value: 15, suffix: '' },
   ],

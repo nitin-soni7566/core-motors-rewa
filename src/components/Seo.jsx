@@ -7,13 +7,14 @@ export default function Seo({ title, description = siteConfig.description, image
   const { pathname } = useLocation()
   const { lang } = useLang()
   const fullTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.defaultTitle
-  const url = `${siteConfig.siteUrl}${pathname === '/' ? '' : pathname}`
+  // Matches the sitemap exactly (homepage is "https://domain/", with the slash)
+  const url = `${siteConfig.siteUrl.replace(/\/$/, '')}${pathname}`
 
   return (
     <Helmet htmlAttributes={{ lang: lang === 'hi' ? 'hi' : 'en-IN' }}>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
+      {!noindex && <link rel="canonical" href={url} />}
       {noindex && <meta name="robots" content="noindex, follow" />}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />

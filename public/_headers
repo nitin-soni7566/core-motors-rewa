@@ -1,0 +1,15 @@
+# Netlify response headers (Vercel uses vercel.json instead). Keep the two in sync.
+# style-src allows 'unsafe-inline' because the pre-rendered HTML contains style="…" attributes
+# (animation start states). Scripts stay strict: only same-origin files, no inline scripts.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; frame-src https://www.google.com https://maps.google.com; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Hashed build files never change, so browsers can keep them for a year
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

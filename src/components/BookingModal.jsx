@@ -1,14 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useBooking } from '../context/BookingContext.jsx'
 import BookingForm from './BookingForm.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
+import { useDialogFocus } from '../hooks/useDialogFocus.js'
+import { useMounted } from '../hooks/useMounted.js'
 
 export default function BookingModal() {
   const { isOpen, service, closeBooking } = useBooking()
   const { t } = useLang()
+  const dialogRef = useRef(null)
+  useDialogFocus(dialogRef, isOpen)
 
   useEffect(() => {
     if (!isOpen) return
@@ -22,6 +26,9 @@ export default function BookingModal() {
     }
   }, [isOpen, closeBooking])
 
+  const mounted = useMounted()
+  if (!mounted) return null // portals need document.body (not available while pre-rendering)
+
   return createPortal(
     <AnimatePresence>
       {isOpen && (
@@ -33,6 +40,7 @@ export default function BookingModal() {
           onMouseDown={(e) => e.target === e.currentTarget && closeBooking()}
         >
           <motion.div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="booking-modal-title"
@@ -45,7 +53,7 @@ export default function BookingModal() {
             <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-line bg-card/90 backdrop-blur-xl px-5 py-4 sm:px-8 sm:py-5">
               <div>
                 <h2 id="booking-modal-title" className="text-xl font-semibold text-ink sm:text-2xl">
-                  {t('modal.title')} <span className="text-accent">{t('modal.accent')}</span>
+                  {t('modal.title')} <span className="text-accent dark:text-accent-light">{t('modal.accent')}</span>
                 </h2>
                 <p className="mt-1 text-sm text-muted">{t('modal.text')}</p>
               </div>
@@ -54,7 +62,7 @@ export default function BookingModal() {
                 onClick={closeBooking}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-2 text-ink transition hover:bg-accent hover:text-white"
                 aria-label={t('modal.close')}
-                autoFocus
+                data-autofocus
               >
                 <X className="h-5 w-5" />
               </button>

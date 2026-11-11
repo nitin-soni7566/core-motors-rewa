@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useLang } from '../context/LanguageContext.jsx'
+import { srcSet } from '../data/images.js'
 
 // Dark banner with breadcrumb shown at the top of inner pages.
 export default function PageHeader({ title, subtitle, image, crumbs = [] }) {
@@ -9,7 +10,16 @@ export default function PageHeader({ title, subtitle, image, crumbs = [] }) {
   return (
     <section className="relative overflow-hidden bg-charcoal py-20 text-white md:py-28">
       {image && (
-        <img src={image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover opacity-35" />
+        // Usually the largest thing on screen (LCP) on inner pages, so fetch it first and at screen size
+        <img
+          src={image}
+          srcSet={srcSet(image, [640, 960, 1280, 1600])}
+          sizes="100vw"
+          alt=""
+          aria-hidden="true"
+          fetchpriority="high"
+          className="absolute inset-0 h-full w-full object-cover opacity-35"
+        />
       )}
       <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/85 to-charcoal/30" aria-hidden="true" />
       <div className="grid-lines absolute inset-0 opacity-60" aria-hidden="true" />

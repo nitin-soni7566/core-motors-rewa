@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLang } from '../context/LanguageContext.jsx'
 import SandName from './SandName.jsx'
@@ -15,14 +15,23 @@ const shouldShow = () => {
   }
 }
 
+// The page HTML is pre-rendered, so for first-time-this-session visitors public/boot.js puts a plain
+// charcoal cover over it (html.intro-pending, see index.css) until this splash takes over.
+const removeCover = () => document.documentElement.classList.remove('intro-pending')
+
+const noSubscribe = () => () => {}
+
 // Full-screen sand-particle intro, shown once per browser session.
+// 'pending' while pre-rendering and while React attaches to that HTML (identical output), then 'show' or 'done'.
 export default function IntroSplash() {
-  const [visible, setVisible] = useState(shouldShow)
+  const wanted = useSyncExternalStore(noSubscribe, shouldShow, () => null) // null = not decided yet
+  const [dismissed, setDismissed] = useState(false)
+  const phase = wanted === null ? 'pending' : wanted && !dismissed ? 'show' : 'done'
+  const visible = phase === 'show'
   const { t } = useLang()
 
   const hide = useCallback(() => {
-    setVisible(false)
-    markIntroDone()
+    setDismissed(true)
     try {
       sessionStorage.setItem(SEEN_KEY, '1')
     } catch {
@@ -31,10 +40,13 @@ export default function IntroSplash() {
   }, [])
 
   useEffect(() => {
-    if (!visible) {
-      markIntroDone() // splash skipped (already seen / reduced motion)
+    if (phase === 'pending') return
+    if (phase === 'done') {
+      removeCover()
+      markIntroDone() // splash finished, skipped, already seen or reduced motion
       return
     }
+    removeCover() // the splash itself now covers the page
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const maxTimer = setTimeout(hide, 5000) // never block the site for long
@@ -45,7 +57,7 @@ export default function IntroSplash() {
       clearTimeout(maxTimer)
       window.removeEventListener('keydown', onKey)
     }
-  }, [visible, hide])
+  }, [phase, hide])
 
   const handleFormed = useCallback(() => setTimeout(hide, 500), [hide])
 
@@ -57,7 +69,6 @@ export default function IntroSplash() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.04 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          aria-label="Core Motors Rewa"
         >
           <div className="grid-lines absolute inset-0" aria-hidden="true" />
           <SandName className="relative" onFormed={handleFormed} />

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { useLang } from '../context/LanguageContext.jsx'
 import ServiceIcon from './ServiceIcon.jsx'
+import { resize, srcSet } from '../data/images.js'
 
 export default function ServiceCard({ service, index = 0 }) {
   const { t, tx } = useLang()
@@ -17,7 +18,9 @@ export default function ServiceCard({ service, index = 0 }) {
       <div className="relative">
         <div className="relative aspect-[16/10] overflow-hidden bg-surface-3">
           <img
-            src={service.image.replace('w=1200', 'w=700')}
+            src={resize(service.image, 700)}
+            srcSet={srcSet(service.image, [400, 700, 1000])}
+            sizes="(min-width: 1280px) 400px, (min-width: 1024px) calc(33vw - 32px), (min-width: 768px) calc(50vw - 36px), calc(100vw - 32px)"
             alt={tx(service.alt)}
             loading="lazy"
             decoding="async"
@@ -39,7 +42,7 @@ export default function ServiceCard({ service, index = 0 }) {
           </Link>
         </h3>
         <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted">{tx(service.short)}</p>
-        <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+        <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent dark:text-accent-light">
           {t('common.learnMore')}
           <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
         </span>

@@ -6,6 +6,7 @@ const STORAGE_KEY = 'cm-lang'
 const LANGUAGES = ['en', 'hi']
 
 const initialLang = () => {
+  if (typeof window === 'undefined') return 'en' // build-time pre-render: always English
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (LANGUAGES.includes(stored)) return stored

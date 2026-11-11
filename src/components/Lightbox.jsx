@@ -1,13 +1,17 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { useLang } from '../context/LanguageContext.jsx'
+import { useDialogFocus } from '../hooks/useDialogFocus.js'
+import { useMounted } from '../hooks/useMounted.js'
 
 export default function Lightbox({ items, index, onClose, onChange }) {
   const { t, tx } = useLang()
   const open = index !== null && index >= 0
   const item = open ? items[index] : null
+  const dialogRef = useRef(null)
+  useDialogFocus(dialogRef, open)
 
   const prev = useCallback(() => onChange((index - 1 + items.length) % items.length), [index, items.length, onChange])
   const next = useCallback(() => onChange((index + 1) % items.length), [index, items.length, onChange])
@@ -28,10 +32,14 @@ export default function Lightbox({ items, index, onClose, onChange }) {
     }
   }, [open, onClose, prev, next])
 
+  const mounted = useMounted()
+  if (!mounted) return null // portals need document.body (not available while pre-rendering)
+
   return createPortal(
     <AnimatePresence>
       {open && (
         <motion.div
+          ref={dialogRef}
           className="fixed inset-0 z-[70] flex items-center justify-center bg-black/95 backdrop-blur p-4"
           role="dialog"
           aria-modal="true"
@@ -46,7 +54,7 @@ export default function Lightbox({ items, index, onClose, onChange }) {
             onClick={onClose}
             className="absolute top-4 right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-accent"
             aria-label={t('lightbox.close')}
-            autoFocus
+            data-autofocus
           >
             <X className="h-6 w-6" />
           </button>

@@ -28,7 +28,7 @@ import MapEmbed from '../components/MapEmbed.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { services } from '../data/services.js'
 import { gallery } from '../data/gallery.js'
-import { unsplash } from '../data/images.js'
+import { srcSet, unsplash } from '../data/images.js'
 import { fullAddress, siteConfig } from '../data/siteConfig.js'
 import { useBooking } from '../context/BookingContext.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
@@ -63,6 +63,8 @@ export default function Home() {
             <div className="relative grid grid-cols-5 gap-4">
               <img
                 src={unsplash('1625047509248-ec889cbff17f', 900, 1100)}
+                srcSet={srcSet(unsplash('1625047509248-ec889cbff17f', 900, 1100), [360, 540, 720, 900])}
+                sizes="(min-width: 1280px) 360px, (min-width: 1024px) 28vw, 60vw"
                 alt={t('home.about.imgAlt')}
                 loading="lazy"
                 className="col-span-3 aspect-[4/5] w-full rounded-3xl object-cover shadow-2xl"
@@ -70,6 +72,8 @@ export default function Home() {
               <div className="col-span-2 flex flex-col gap-4 pt-12">
                 <img
                   src={unsplash('1663852408695-f57f4d75a536', 600, 600)}
+                  srcSet={srcSet(unsplash('1663852408695-f57f4d75a536', 600, 600), [240, 400, 600])}
+                  sizes="(min-width: 1280px) 240px, (min-width: 1024px) 18vw, 40vw"
                   alt=""
                   aria-hidden="true"
                   loading="lazy"
@@ -77,7 +81,7 @@ export default function Home() {
                 />
                 <div className="flex flex-1 flex-col justify-end rounded-3xl bg-accent p-5 text-white shadow-[0_20px_50px_-15px_rgba(225,6,0,0.6)]">
                   <p className="font-heading text-4xl font-semibold md:text-5xl">{siteConfig.stats[2].value}+</p>
-                  <p className="mt-1 text-xs font-medium tracking-wider uppercase opacity-90">{t('home.about.years')}</p>
+                  <p className="mt-1 text-xs font-medium tracking-wider uppercase">{t('home.about.years')}</p>
                 </div>
               </div>
             </div>
@@ -131,6 +135,8 @@ export default function Home() {
       <section className="relative overflow-hidden bg-charcoal py-20 md:py-24">
         <img
           src={unsplash('1657179724285-d347db4c73a7', 1600)}
+          srcSet={srcSet(unsplash('1657179724285-d347db4c73a7', 1600), [640, 1024, 1600])}
+          sizes="100vw"
           alt=""
           aria-hidden="true"
           loading="lazy"

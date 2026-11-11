@@ -3,6 +3,10 @@ import { CAR_PATHS, CAR_STROKE, MARK, TEXT, WHEEL, spokeLines, tyrePath } from '
 import { TEXT_PATH } from './brandTextPath.js'
 
 const REWA_FONT = (size) => `800 ${size}px Poppins, sans-serif`
+// True once a Poppins 800 face has actually downloaded (document.fonts.check() is also true when the
+// font isn't declared at all yet, so it can't tell "loaded" from "stylesheet not here yet").
+const poppinsLoaded = () =>
+  [...document.fonts].some((f) => f.family.replace(/["']/g, '') === 'Poppins' && f.weight === '800' && f.status === 'loaded')
 const SAND = ['#f6eddc', '#efe2c8', '#e6d3ad', '#ffffff', '#d9c7a3']
 const REDS = ['#E10600', '#ff2a1f', '#c80500', '#ff4d40']
 const STEEL = ['#e4e4e7', '#d4d4d8', '#a1a1aa', '#f4f4f5']
@@ -79,7 +83,10 @@ function computeLayout(ctx, w, h, fillHeight) {
 
 // On-screen width of the car outline (px)
 const carWidth = (s) => Math.min(Math.max(CAR_STROKE * s, 2), 6)
-const textShape = new Path2D(TEXT_PATH) // "ORE MOTORS" as shapes, same as the SVG logo
+// "ORE MOTORS" as shapes, same as the SVG logo. Created on first use (Path2D only exists in browsers,
+// and this module is also loaded at build time to pre-render the page HTML).
+let textShapeCache
+const textShape = () => (textShapeCache ??= new Path2D(TEXT_PATH))
 
 // Points along every car line, one per unit of length (in mark coordinates).
 // Measured once and cached — measuring SVG paths is slow, so never per resize.
@@ -126,8 +133,8 @@ function drawCutMask(c, layout) {
     c.fill()
     c.lineWidth = 8 / layout.s
     c.lineJoin = 'round'
-    c.fill(textShape)
-    c.stroke(textShape)
+    c.fill(textShape())
+    c.stroke(textShape())
   })
 }
 
@@ -156,7 +163,7 @@ function drawWheel(c, layout) {
 function drawText(c, layout) {
   inMarkSpace(c, layout, () => {
     c.fillStyle = '#fff'
-    c.fill(textShape)
+    c.fill(textShape())
   })
 }
 
@@ -440,23 +447,35 @@ export default function SandName({ className = '', onFormed, play = true, label 
       pointer.x = pointer.y = -9999
     }
 
-    // Start straight away; if Poppins (used for REWA) arrives later, re-measure —
+    // Start straight away; when Poppins 800 (used for REWA) arrives, re-measure —
     // the grains glide to the corrected spots instead of waiting for the download.
+    // The font stylesheet is applied without blocking the page (see public/boot.js), so its
+    // @font-face rules may not exist yet: retry whenever the browser finishes loading any font.
     let cancelled = false
-    const fontReady = document.fonts.check(REWA_FONT(100))
+    let fontApplied = poppinsLoaded()
+    const tryFont = () => {
+      if (cancelled || fontApplied) return
+      document.fonts
+        .load(REWA_FONT(100), 'REWA')
+        .then(() => {
+          if (cancelled || fontApplied || !poppinsLoaded()) return
+          fontApplied = true
+          build(true)
+        })
+        .catch(() => {})
+    }
     build()
     ro.observe(canvas)
     canvas.addEventListener('pointermove', move)
     canvas.addEventListener('pointerleave', leave)
-    if (!fontReady) {
-      document.fonts
-        .load(REWA_FONT(100))
-        .then(() => !cancelled && build(true))
-        .catch(() => {})
+    if (!fontApplied) {
+      tryFont()
+      document.fonts.addEventListener('loadingdone', tryFont)
     }
 
     return () => {
       cancelled = true
+      document.fonts.removeEventListener('loadingdone', tryFont)
       cancelAnimationFrame(raf)
       clearTimeout(resizeTimer)
       ro.disconnect()

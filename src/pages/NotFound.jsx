@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Phone } from 'lucide-react'
 import Seo from '../components/Seo.jsx'
-import { siteConfig, telLink } from '../data/siteConfig.js'
+import { telLink } from '../data/siteConfig.js'
 import { useLang } from '../context/LanguageContext.jsx'
 
 export default function NotFound() {
@@ -33,14 +33,14 @@ export default function NotFound() {
               <circle cx="92" cy="46" r="8" fill="#fff" stroke="currentColor" strokeWidth="4" />
               <path d="M30 22 L50 22 L50 32 L22 32 Z M56 22 L72 22 Q78 22 82 26 L88 32 L56 32 Z" fill="#111" opacity="0.6" />
             </motion.svg>
-            <p className="font-heading text-sm font-bold tracking-[0.3em] text-accent uppercase">{t('404.eyebrow')}</p>
+            <p className="font-heading text-sm font-bold tracking-[0.3em] text-accent-light uppercase">{t('404.eyebrow')}</p>
             <h1 className="mt-3 text-3xl font-semibold sm:text-5xl">{t('404.title')}</h1>
             <p className="mx-auto mt-4 max-w-md text-neutral-400">{t('404.text')}</p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link to="/" className="btn-primary">
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {t('404.home')}
               </Link>
-              <a href={telLink} className="btn-outline" aria-label={t('common.call', { phone: siteConfig.phone })}>
+              <a href={telLink} className="btn-outline">
                 <Phone className="h-4 w-4" aria-hidden="true" /> {t('404.call')}
               </a>
             </div>
