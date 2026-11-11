@@ -32,9 +32,9 @@ The original codebase was well structured. It had no XSS sinks, no secrets, no c
 
 These are listed under *Critical/High* in §10 and §13. Only the owner can resolve them.
 
-The live site at coremotors.in is still the **old version**, with placeholder data in its schema and a sitemap on the wrong domain. Deploying this build fixes both.
+This build is **live on coremotors.in** (Netlify) and was verified there.
 
-**Production-readiness score: 80 / 100** (methodology in §15).
+**Production-readiness score: 81 / 100** (methodology in §15).
 
 ---
 
@@ -223,7 +223,8 @@ Tested with axe-core (WCAG 2.0/2.1/2.2 A and AA rules) on all 26 routes in light
 | Compression | Brotli/gzip are applied automatically by Netlify |
 | Environment variables | None needed |
 | Domain | `siteUrl: 'https://coremotors.in'`, confirmed by the owner. Drives canonical, OG, sitemap and robots. |
-| Verified on the live host | ❌ The new build is not deployed. Routing, headers, 404s and hydration were verified against a local Netlify emulation. |
+| Verified on the live host | ✅ **Deployed to Netlify on 11 Nov 2026** (auto-deploy from `main`). On https://coremotors.in, all 24 sitemap URLs return 200 with matching canonical URLs, unknown URLs and bad slugs return 404, all security headers are present, and browser loads (first and repeat visit) show 0 errors. |
+| Deployment incident | Netlify's pretty-URL handling 301-redirected `/about` → `/about/`, which my local emulation didn't reproduce. The first fix added `/page/ → /page` redirects. Netlify ignores trailing slashes when matching rules, so this created a **redirect loop on inner pages for about 4 minutes (23:05–23:09)**. Fixed in `d78a808` with forced rewrites only (`/about  /about/index.html  200!`). A comment in `scripts/prerender.js` warns against reintroducing it. |
 
 ---
 
@@ -248,7 +249,7 @@ Tested with axe-core (WCAG 2.0/2.1/2.2 A and AA rules) on all 26 routes in light
 | H6 | Focus escaping dialogs; hero `<h1>` disappearing | **Fixed** |
 | H7 | Blank page on chunk-load failure | **Fixed** |
 | H8 | react-router advisories | **Fixed** |
-| H9 | Live site serves the old build (placeholder schema, wrong-domain sitemap) | **Open — deploy this build** |
+| H9 | Live site served the old build (placeholder schema, wrong-domain sitemap) | **Fixed** (deployed and verified live) |
 
 ### Medium
 | # | Issue | Status |
@@ -322,7 +323,8 @@ Other visible changes:
 | Keyboard / dialog / form end-to-end | automated | ✅ (§6); WhatsApp opens `wa.me/919893078888` |
 | HTML validation | automated | ✅ no errors |
 | Lighthouse, before vs after (3 runs each) | automated | §5 |
-| Live host, Search Console, real devices, Firefox/Safari/Edge, screen reader | — | **not performed** |
+| Live site (coremotors.in, Netlify) | automated (curl + Chromium) | ✅ 24/24 sitemap URLs 200 with matching canonical; 404s correct; headers present; 0 browser errors |
+| Search Console, real devices, Firefox/Safari/Edge, screen reader | — | **not performed** |
 
 ---
 
@@ -336,11 +338,10 @@ Other visible changes:
 6. Confirm the **PIN code** (486001).
 7. Have the **Privacy Policy and Terms** reviewed.
 8. Have the **Hindi translations** reviewed by a native speaker.
-9. **Deploy this build to Netlify.** The live site still has placeholder schema and a wrong-domain sitemap.
 
 ## 14. Recommended next steps
 
-1. Fix §13 items 1–5, then deploy.
+1. Fix §13 items 1–5 (each push to `main` redeploys automatically).
 2. On the live domain:
    - run `curl -I https://coremotors.in/about` to check the headers
    - open a bad URL to confirm it returns 404
@@ -353,17 +354,17 @@ Other visible changes:
 
 ---
 
-## 15. Production-readiness score: **80 / 100**
+## 15. Production-readiness score: **81 / 100**
 
 | Area | Weight | Score | Reasoning |
 |---|---|---|---|
-| Security | 20 | 18 | Strict script CSP and the full header set, 0 vulnerabilities, no secrets or XSS sinks. −2: `style-src 'unsafe-inline'`; not yet verified on the live host. |
+| Security | 20 | 18 | Strict script CSP and the full header set (verified live), 0 vulnerabilities, no secrets or XSS sinks. −2: `style-src 'unsafe-inline'`; no HSTS preload. |
 | Accessibility | 15 | 13 | All WCAG failures fixed except the exempt logotype. −2: no slider pause button; no real screen-reader test. |
 | SEO (technical) | 15 | 14 | Pre-rendered pages with their own metadata, real 404s, valid real JSON-LD, correct domain. −1: Hindi not separately indexable. |
 | Performance | 15 | 11 | Home 50→75, service page 64→85, service LCP 2.4 s, CLS 0. −4: home LCP 3.1 s; JavaScript and intro cost; no field data. |
 | Code quality and reliability | 10 | 9 | Clean lint, error boundary, chunk recovery, single route list. −1: no automated tests in the repo. |
-| Deployment readiness | 10 | 8 | Netlify routing, 404s, headers and caching generated and emulated. −2: not deployed or verified on the live host; Vercel path unverified. |
+| Deployment readiness | 10 | 9 | Deployed and verified live: routing, canonical URLs, 404s, headers. −1: short redirect-loop incident during rollout; Vercel path unverified. |
 | Content and legal | 15 | 7 | Contact details, hours, location, domain, email and 2 counters are real. −8: invented reviews and team, unverified counters, stock photos presented as own work, placeholder socials, legal templates. |
-| **Total** | **100** | **80** | |
+| **Total** | **100** | **81** | |
 
-**Interpretation.** The engineering side is about 90 % ready. Most of the remaining gap is content the owner has to supply. Once §13 items 1–5 are done and the build is deployed, the score would be around 88–90.
+**Interpretation.** The engineering side is about 90 % ready. Most of the remaining gap is content the owner has to supply. Once §13 items 1–5 are done, the score would be around 88–90.
