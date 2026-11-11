@@ -39,17 +39,13 @@ for (const { path } of routes) {
 write(join(dist, '404.html'), await page('/404'))
 
 // Netlify: serve each page at its exact URL (forced "200!", otherwise Netlify's pretty-URL handling
-// 301-redirects /about to /about/ and every canonical URL in the sitemap would be a redirect),
-// send the trailing-slash form back to it, and give anything else the 404 page with status 404.
+// 301-redirects /about to /about/ and every canonical URL in the sitemap would be a redirect).
+// Anything else gets the 404 page with status 404.
+// Do NOT add "/about/ -> /about" redirects: Netlify ignores trailing slashes when matching rules,
+// so such a rule also matches /about and redirects it to itself forever.
 write(
   join(dist, '_redirects'),
-  [
-    ...routes
-      .filter((r) => r.path !== '/')
-      .flatMap((r) => [`${r.path}/  ${r.path}  301!`, `${r.path}  ${r.path}/index.html  200!`]),
-    '/*  /404.html  404',
-    '',
-  ].join('\n'),
+  [...routes.filter((r) => r.path !== '/').map((r) => `${r.path}  ${r.path}/index.html  200!`), '/*  /404.html  404', ''].join('\n'),
 )
 
 rmSync(ssrDir, { recursive: true, force: true })
