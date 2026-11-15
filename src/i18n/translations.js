@@ -200,6 +200,7 @@ export const translations = {
     'contact.follow': 'Follow Us',
     'contact.followText': 'See our latest work and offers.',
     'map.title': 'Map showing {name} location',
+    'map.directions': 'Get directions',
 
     // Booking form
     'form.name': 'Full Name',
@@ -478,6 +479,7 @@ export const translations = {
     'contact.follow': 'हमें फ़ॉलो करें',
     'contact.followText': 'हमारा नया काम और ऑफ़र देखें।',
     'map.title': '{name} की लोकेशन का नक्शा',
+    'map.directions': 'रास्ता देखें',
 
     'form.name': 'पूरा नाम',
     'form.namePh': 'आपका नाम',

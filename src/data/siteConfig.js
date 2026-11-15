@@ -4,6 +4,11 @@
 //  including the SEO tags and Google schema in index.html.
 // ─────────────────────────────────────────────────────────────
 
+// Phone numbers for calls, as shown on the site. All of them are listed in the footer and on the
+// Contact page; the FIRST one is the main number that every "Call Now" button dials.
+// Add, remove or reorder lines freely.
+const phones = ['+91 79098 88891', '+91 79098 88892', '+91 79098 88893', '+91 98930 78888']
+
 export const siteConfig = {
   name: 'Core Motors Rewa',
   shortName: 'Core Motors',
@@ -18,11 +23,12 @@ export const siteConfig = {
   themeColor: '#111111',
 
   // Contact
-  phone: '+91 98930 78888', // shown on the site
-  phoneLink: '+919893078888', // used for tel: links (no spaces)
-  whatsapp: '919893078888', // country code + number, digits only (same number as calls)
+  phones,
+  phone: phones[0], // main number (Call Now buttons, top bar)
+  whatsapp: '917909888892', // WhatsApp: country code + number, digits only (bookings are sent here)
+  whatsappDisplay: '+91 79098 88892', // the same WhatsApp number, as shown on the site
   whatsappMessage: 'Hi Core Motors, I would like to book a car service.',
-  email: 'support@coremotors.in',
+  email: 'bodyshop@coremotors.in',
 
   address: {
     line1: 'In front of Subh Motors, Allahabad Road, Ratahara',
@@ -31,10 +37,13 @@ export const siteConfig = {
     state: 'Madhya Pradesh',
     pin: '486001', // TODO: confirm the PIN code for Ratahara
   },
-  // Exact workshop pin (from the owner's Google Maps link)
-  geo: { lat: 24.5456712, lng: 81.340673 },
-  mapEmbedUrl: 'https://www.google.com/maps?q=24.5456712,81.340673&z=17&hl=en&output=embed',
-  mapLink: 'https://www.google.com/maps?q=24.5456712,81.340673&z=17&hl=en',
+  // Exact workshop location (owner-supplied coordinates)
+  geo: { lat: 24.54570494818453, lng: 81.34094515161048 },
+  // Map shown on the site. Once the Google Business Profile is verified, replace this with the profile's
+  // Google Maps → Share → "Embed a map" link, so the pin shows the business name and reviews.
+  mapEmbedUrl: 'https://www.google.com/maps?q=24.54570494818453,81.34094515161048&z=17&hl=en&output=embed',
+  // "Get directions" (opens Google Maps navigation to the workshop)
+  mapLink: 'https://www.google.com/maps/dir/?api=1&destination=24.54570494818453,81.34094515161048',
 
   // Opening hours (displayed, in English and Hindi)
   hours: [
@@ -71,4 +80,6 @@ export const fullAddress = (a = siteConfig.address) => `${a.line1}, ${a.city}, $
 export const whatsappLink = (text = siteConfig.whatsappMessage) =>
   `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`
 
-export const telLink = `tel:${siteConfig.phoneLink}`
+// "tel:" link for any number as written above ("+91 79098 88891" → "tel:+917909888891")
+export const telHref = (number) => `tel:${number.replace(/[^\d+]/g, '')}`
+export const telLink = telHref(siteConfig.phone)

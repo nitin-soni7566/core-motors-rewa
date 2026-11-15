@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react'
 import { services } from '../data/services.js'
-import { fullAddress, siteConfig, telLink } from '../data/siteConfig.js'
+import { fullAddress, siteConfig, telHref, whatsappLink } from '../data/siteConfig.js'
+import { WhatsAppIcon } from './WhatsAppButton.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
 import { useBooking } from '../context/BookingContext.jsx'
 import Logo from './Logo.jsx'
@@ -82,8 +83,18 @@ export default function Footer() {
               </li>
               <li className="flex gap-3">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                <a href={telLink} className="hover:text-white">
-                  {siteConfig.phone}
+                <span className="flex flex-col gap-1">
+                  {siteConfig.phones.map((n) => (
+                    <a key={n} href={telHref(n)} className="hover:text-white">
+                      {n}
+                    </a>
+                  ))}
+                </span>
+              </li>
+              <li className="flex gap-3">
+                <WhatsAppIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                  {siteConfig.whatsappDisplay} <span className="sr-only">(WhatsApp)</span>
                 </a>
               </li>
               <li className="flex gap-3">

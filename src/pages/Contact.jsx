@@ -7,14 +7,14 @@ import MapEmbed from '../components/MapEmbed.jsx'
 import SocialIcons from '../components/SocialIcons.jsx'
 import { WhatsAppIcon } from '../components/WhatsAppButton.jsx'
 import { unsplash } from '../data/images.js'
-import { fullAddress, siteConfig, telLink, whatsappLink } from '../data/siteConfig.js'
+import { fullAddress, siteConfig, telHref, whatsappLink } from '../data/siteConfig.js'
 import { useLang } from '../context/LanguageContext.jsx'
 
 export default function Contact() {
   const { t, tx } = useLang()
   const contactCards = [
-    { icon: Phone, title: t('contact.callUs'), value: siteConfig.phone, href: telLink },
-    { icon: WhatsAppIcon, title: t('contact.whatsapp'), value: t('contact.chat'), href: whatsappLink(), external: true },
+    { icon: Phone, title: t('contact.callUs'), numbers: siteConfig.phones },
+    { icon: WhatsAppIcon, title: t('contact.whatsapp'), value: siteConfig.whatsappDisplay, href: whatsappLink(), external: true },
     { icon: Mail, title: t('contact.email'), value: siteConfig.email, href: `mailto:${siteConfig.email}` },
     { icon: MapPin, title: t('contact.visit'), value: fullAddress(), href: siteConfig.mapLink, external: true },
   ]
@@ -33,17 +33,36 @@ export default function Contact() {
         <div className="container-x grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {contactCards.map((c, i) => (
             <Reveal key={c.title} delay={i * 0.08}>
-              <a
-                href={c.href}
-                {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="group card card-hover flex h-full flex-col items-start p-6 shadow-xl shadow-black/5"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-white">
-                  <c.icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h2 className="mt-5 font-heading font-semibold">{c.title}</h2>
-                <p className="mt-1 text-sm break-words text-muted">{c.value}</p>
-              </a>
+              {c.numbers ? (
+                // Several numbers: one card, each number its own tap-to-call link
+                <div className="group card card-hover flex h-full flex-col items-start p-6 shadow-xl shadow-black/5">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-white">
+                    <c.icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h2 className="mt-5 font-heading font-semibold">{c.title}</h2>
+                  <ul className="mt-1 space-y-1 text-sm">
+                    {c.numbers.map((n) => (
+                      <li key={n}>
+                        <a href={telHref(n)} className="text-muted transition hover:text-accent dark:hover:text-accent-light">
+                          {n}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <a
+                  href={c.href}
+                  {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="group card card-hover flex h-full flex-col items-start p-6 shadow-xl shadow-black/5"
+                >
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-white">
+                    <c.icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h2 className="mt-5 font-heading font-semibold">{c.title}</h2>
+                  <p className="mt-1 text-sm break-words text-muted">{c.value}</p>
+                </a>
+              )}
             </Reveal>
           ))}
         </div>

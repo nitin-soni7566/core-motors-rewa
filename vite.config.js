@@ -21,6 +21,10 @@ function siteMetaPlugin() {
     logo: `${s.siteUrl}/logo.png`,
     image: s.ogImage,
     telephone: real(s.phone),
+    // every call number, so Google can show all of them
+    contactPoint: s.phones
+      .filter((n) => !isPlaceholder(n))
+      .map((n) => ({ '@type': 'ContactPoint', telephone: n, contactType: 'customer service', areaServed: 'IN', availableLanguage: ['en', 'hi'] })),
     email: s.email,
     priceRange: '₹₹',
     address: {

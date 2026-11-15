@@ -21,17 +21,17 @@ export default function CTA({ title, text }) {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-accent via-accent/85 to-accent/20" aria-hidden="true" />
           <div className="grid-lines absolute inset-0" aria-hidden="true" />
-          <div className="relative flex flex-col items-start justify-between gap-8 p-8 sm:p-12 lg:flex-row lg:items-center lg:p-16">
+          <div className="relative flex flex-col items-start justify-between gap-8 p-8 sm:p-12 lg:p-16 xl:flex-row xl:items-center">
             <div className="max-w-2xl text-white">
               <h2 className="text-3xl leading-tight font-semibold md:text-5xl">{title ?? t('cta.title')}</h2>
               <p className="mt-4 text-base text-white/85 md:text-lg">{text ?? t('cta.text')}</p>
             </div>
-            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-              <button type="button" onClick={() => openBooking()} className="btn group bg-white text-charcoal hover:-translate-y-0.5 hover:bg-neutral-100">
+            <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row">
+              <button type="button" onClick={() => openBooking()} className="btn group bg-white whitespace-nowrap text-charcoal hover:-translate-y-0.5 hover:bg-neutral-100">
                 {t('common.bookService')}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </button>
-              <a href={telLink} className="btn-outline" aria-label={t('common.call', { phone: siteConfig.phone })}>
+              <a href={telLink} className="btn-outline whitespace-nowrap" aria-label={t('common.call', { phone: siteConfig.phone })}>
                 <Phone className="h-4 w-4" aria-hidden="true" /> {siteConfig.phone}
               </a>
             </div>

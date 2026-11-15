@@ -37,9 +37,9 @@ Replace these placeholders:
 
 | Field          | Placeholder                    | Example                         |
 | -------------- | ------------------------------ | ------------------------------- |
-| `phone`        | `+91 XXXXX XXXXX`              | `+91 98765 43210` (as displayed) |
-| `phoneLink`    | `+91XXXXXXXXXX`                | `+919876543210` (no spaces)     |
-| `whatsapp`     | `91XXXXXXXXXX`                 | `919876543210` (digits only, with 91) |
+| `phones` (top of the file) | list of call numbers | `['+91 79098 88891', '+91 79098 88892']`, written as displayed. The **first** one is dialled by every "Call Now" button; all are listed in the footer and on the Contact page. |
+| `whatsapp`     | `91XXXXXXXXXX`                 | `917909888892` (digits only, with 91). Bookings are sent here. |
+| `whatsappDisplay` | —                           | `+91 79098 88892` (the WhatsApp number as shown on the site) |
 | `address`      | `Core Motors, [Street]`        | Your real street address        |
 | `geo`          | Rewa city centre               | Your workshop's latitude/longitude |
 | `mapEmbedUrl`  | Rewa city search               | See below                       |
@@ -47,7 +47,7 @@ Replace these placeholders:
 | `socials`      | Generic Facebook/Instagram/YouTube | Your page links (use `''` to hide an icon) |
 | `stats`        | 5000 / 12000 / 10 / 15         | Your real numbers               |
 
-**Google Map:** open your workshop in Google Maps → **Share** → **Embed a map** → copy only the `src="…"` URL into `mapEmbedUrl`. Put the normal share link in `mapLink`.
+**Google Map:** the map uses the workshop coordinates in `geo` / `mapEmbedUrl`, and `mapLink` opens Google Maps directions to them. Once your Google Business Profile is verified, open it in Google Maps → **Share** → **Embed a map** and copy only the `src="…"` URL into `mapEmbedUrl`, so the pin shows your business name and reviews.
 
 Opening hours are set in two places in the same file: `hours` (what visitors see) and `hoursSchema` (what Google reads).
 
