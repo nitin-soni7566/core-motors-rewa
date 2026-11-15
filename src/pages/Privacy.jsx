@@ -42,8 +42,8 @@ const sections = [
   {
     heading: { en: 'Contact Us', hi: 'संपर्क करें' },
     body: {
-      en: `If you have any questions about this Privacy Policy, please contact us at ${siteConfig.email} or call ${siteConfig.phones.join(', ')}.`,
-      hi: `इस गोपनीयता नीति के बारे में किसी भी सवाल के लिए हमें ${siteConfig.email} पर ईमेल करें या ${siteConfig.phones.join(', ')} पर कॉल करें।`,
+      en: `If you have any questions about this Privacy Policy, please contact us at ${siteConfig.emails.join(', ')} or call ${siteConfig.phones.join(', ')}.`,
+      hi: `इस गोपनीयता नीति के बारे में किसी भी सवाल के लिए हमें ${siteConfig.emails.join(', ')} पर ईमेल करें या ${siteConfig.phones.join(', ')} पर कॉल करें।`,
     },
   },
 ]

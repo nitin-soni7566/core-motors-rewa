@@ -9,6 +9,10 @@
 // Add, remove or reorder lines freely.
 const phones = ['+91 79098 88891', '+91 79098 88892', '+91 79098 88893', '+91 98930 78888']
 
+// Email addresses. All are listed in the footer and on the Contact page; the FIRST one is the main
+// address (top bar, Google business data).
+const emails = ['bodyshop@coremotors.in', 'coremotorsrewa@gmail.com']
+
 export const siteConfig = {
   name: 'Core Motors Rewa',
   shortName: 'Core Motors',
@@ -28,7 +32,8 @@ export const siteConfig = {
   whatsapp: '917909888892', // WhatsApp: country code + number, digits only (bookings are sent here)
   whatsappDisplay: '+91 79098 88892', // the same WhatsApp number, as shown on the site
   whatsappMessage: 'Hi Core Motors, I would like to book a car service.',
-  email: 'bodyshop@coremotors.in',
+  emails,
+  email: emails[0], // main email
 
   address: {
     line1: 'In front of Subh Motors, Allahabad Road, Ratahara',

@@ -49,8 +49,8 @@ const sections = [
   {
     heading: { en: 'Contact', hi: 'संपर्क' },
     body: {
-      en: `For any questions regarding these terms, contact ${siteConfig.name} at ${siteConfig.email} or ${siteConfig.phones.join(', ')}.`,
-      hi: `इन शर्तों के बारे में किसी भी सवाल के लिए ${siteConfig.name} से ${siteConfig.email} या ${siteConfig.phones.join(', ')} पर संपर्क करें।`,
+      en: `For any questions regarding these terms, contact ${siteConfig.name} at ${siteConfig.emails.join(', ')} or ${siteConfig.phones.join(', ')}.`,
+      hi: `इन शर्तों के बारे में किसी भी सवाल के लिए ${siteConfig.name} से ${siteConfig.emails.join(', ')} या ${siteConfig.phones.join(', ')} पर संपर्क करें।`,
     },
   },
 ]

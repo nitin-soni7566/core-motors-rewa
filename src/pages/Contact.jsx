@@ -13,9 +13,9 @@ import { useLang } from '../context/LanguageContext.jsx'
 export default function Contact() {
   const { t, tx } = useLang()
   const contactCards = [
-    { icon: Phone, title: t('contact.callUs'), numbers: siteConfig.phones },
+    { icon: Phone, title: t('contact.callUs'), links: siteConfig.phones.map((n) => ({ label: n, href: telHref(n) })) },
     { icon: WhatsAppIcon, title: t('contact.whatsapp'), value: siteConfig.whatsappDisplay, href: whatsappLink(), external: true },
-    { icon: Mail, title: t('contact.email'), value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+    { icon: Mail, title: t('contact.email'), links: siteConfig.emails.map((e) => ({ label: e, href: `mailto:${e}` })) },
     { icon: MapPin, title: t('contact.visit'), value: fullAddress(), href: siteConfig.mapLink, external: true },
   ]
 
@@ -33,18 +33,18 @@ export default function Contact() {
         <div className="container-x grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {contactCards.map((c, i) => (
             <Reveal key={c.title} delay={i * 0.08}>
-              {c.numbers ? (
-                // Several numbers: one card, each number its own tap-to-call link
+              {c.links ? (
+                // Several numbers/emails: one card, each its own link
                 <div className="group card card-hover flex h-full flex-col items-start p-6 shadow-xl shadow-black/5">
                   <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-white">
                     <c.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h2 className="mt-5 font-heading font-semibold">{c.title}</h2>
                   <ul className="mt-1 space-y-1 text-sm">
-                    {c.numbers.map((n) => (
-                      <li key={n}>
-                        <a href={telHref(n)} className="text-muted transition hover:text-accent dark:hover:text-accent-light">
-                          {n}
+                    {c.links.map((l) => (
+                      <li key={l.href}>
+                        <a href={l.href} className="break-all text-muted transition hover:text-accent dark:hover:text-accent-light">
+                          {l.label}
                         </a>
                       </li>
                     ))}

@@ -99,9 +99,13 @@ export default function Footer() {
               </li>
               <li className="flex gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                <a href={`mailto:${siteConfig.email}`} className="break-all hover:text-white">
-                  {siteConfig.email}
-                </a>
+                <span className="flex flex-col gap-1">
+                  {siteConfig.emails.map((e) => (
+                    <a key={e} href={`mailto:${e}`} className="break-all hover:text-white">
+                      {e}
+                    </a>
+                  ))}
+                </span>
               </li>
               <li className="flex gap-3">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
