@@ -11,7 +11,8 @@
     "prebuild": "node scripts/generate-seo-files.js",
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js",
     "preview": "vite preview",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "indexnow": "node scripts/indexnow.js"
   },
   "dependencies": {
     "framer-motion": "^14.4.0",
