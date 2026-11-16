@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from '../components/LocalizedLink.jsx'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Phone } from 'lucide-react'
 import Seo from '../components/Seo.jsx'

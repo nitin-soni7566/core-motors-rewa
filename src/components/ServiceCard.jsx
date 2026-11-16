@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from './LocalizedLink.jsx'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { useLang } from '../context/LanguageContext.jsx'

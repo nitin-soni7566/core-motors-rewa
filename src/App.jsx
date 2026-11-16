@@ -11,6 +11,7 @@ import IntroSplash from './components/IntroSplash.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import Home from './pages/Home.jsx'
 import { useLang } from './context/LanguageContext.jsx'
+import { HI_PREFIX } from './i18n/routing.js'
 
 const About = lazy(() => import('./pages/About.jsx'))
 const Services = lazy(() => import('./pages/Services.jsx'))
@@ -50,14 +51,17 @@ export default function App() {
         <ErrorBoundary key={pathname}>
           <Suspense fallback={<PageFallback />}>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/services/:slug" element={<ServiceDetail />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
+              {/* every page in English (/about) and Hindi (/hi/about); the language comes from the URL */}
+              {['', HI_PREFIX].flatMap((base) => [
+                <Route key={`${base}/`} path={base || '/'} element={<Home />} />,
+                <Route key={`${base}/about`} path={`${base}/about`} element={<About />} />,
+                <Route key={`${base}/services`} path={`${base}/services`} element={<Services />} />,
+                <Route key={`${base}/services/:slug`} path={`${base}/services/:slug`} element={<ServiceDetail />} />,
+                <Route key={`${base}/gallery`} path={`${base}/gallery`} element={<Gallery />} />,
+                <Route key={`${base}/contact`} path={`${base}/contact`} element={<Contact />} />,
+                <Route key={`${base}/privacy`} path={`${base}/privacy`} element={<Privacy />} />,
+                <Route key={`${base}/terms`} path={`${base}/terms`} element={<Terms />} />,
+              ])}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

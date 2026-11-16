@@ -65,7 +65,7 @@ The team members on the About page are placeholders too. Edit the `team` list in
 
 ### Hindi / English
 
-The site has an **EN | हि** switch in the navbar (inside the menu on phones). The visitor's choice is remembered in their browser.
+Every page exists in English and Hindi at its own address: `coremotors.in/services/car-ac-repair` (English) and `coremotors.in/hi/services/car-ac-repair` (Hindi). The **EN | हि** switch in the navbar (inside the menu on phones) opens the same page in the other language. Both versions are pre-rendered and listed in the sitemap, linked to each other, so Google can show Hindi searchers the Hindi page.
 
 - **Buttons, headings and short UI text** are in `src/i18n/translations.js`. Each text has the same key in the `en` and `hi` sections, so edit both.
 - **Longer content** (services, FAQs, reviews, gallery captions, opening hours) is written as `{ en: '…', hi: '…' }` in the `src/data/` files.

@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from './LocalizedLink.jsx'
 import { CAR_PATHS, MARK, WHEEL, spokeLines, tyrePath } from './brandMark.js'
 import { TEXT_PATH } from './brandTextPath.js'
 

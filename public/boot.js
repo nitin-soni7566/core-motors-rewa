@@ -3,11 +3,10 @@
 ;(function () {
   var html = document.documentElement
 
-  // 1. Saved theme + language, applied before first paint (no white flash in dark mode)
+  // 1. Saved theme, applied before first paint (no white flash in dark mode). Language comes from the URL (/hi/…).
   try {
     var t = localStorage.getItem('cm-theme')
     if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) html.classList.add('dark')
-    if (localStorage.getItem('cm-lang') === 'hi') html.lang = 'hi'
   } catch {
     // storage blocked (private mode etc.): defaults apply
   }
@@ -25,7 +24,7 @@
   // 2. Home page only: start downloading the first hero photo now instead of after the JavaScript runs.
   //    The srcset comes from src/data/hero.js (injected into index.html at build time).
   var hero = document.querySelector('meta[name="cm-hero-srcset"]')
-  if (location.pathname === '/' && hero && hero.content) {
+  if ((location.pathname === '/' || location.pathname === '/hi') && hero && hero.content) {
     var pre = document.createElement('link')
     pre.rel = 'preload'
     pre.as = 'image'

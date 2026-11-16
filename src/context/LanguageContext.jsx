@@ -1,36 +1,29 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { translations } from '../i18n/translations.js'
+import { isHindiPath, localizePath, stripLang } from '../i18n/routing.js'
 
 const LanguageContext = createContext(null)
-const STORAGE_KEY = 'cm-lang'
-const LANGUAGES = ['en', 'hi']
 
-const initialLang = () => {
-  if (typeof window === 'undefined') return 'en' // build-time pre-render: always English
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (LANGUAGES.includes(stored)) return stored
-  } catch {
-    /* ignore */
-  }
-  return 'en'
-}
-
+// The language comes from the address: /hi/... is Hindi, everything else English. Each language has
+// its own URLs, so Google can index (and people can share) the Hindi pages separately.
 export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(initialLang)
+  const { pathname, search, hash } = useLocation()
+  const navigate = useNavigate()
+  const lang = isHindiPath(pathname) ? 'hi' : 'en'
 
   useEffect(() => {
     document.documentElement.lang = lang === 'hi' ? 'hi' : 'en-IN'
   }, [lang])
 
-  const setLang = useCallback((next) => {
-    setLangState(next)
-    try {
-      localStorage.setItem(STORAGE_KEY, next)
-    } catch {
-      /* ignore */
-    }
-  }, [])
+  // Switching language opens the same page in the other language (keeping the scroll position)
+  const setLang = useCallback(
+    (next) => {
+      if (next === lang) return
+      navigate(localizePath(stripLang(pathname), next) + search + hash, { state: { keepScroll: true } })
+    },
+    [lang, pathname, search, hash, navigate],
+  )
 
   const toggleLang = useCallback(() => setLang(lang === 'en' ? 'hi' : 'en'), [lang, setLang])
 

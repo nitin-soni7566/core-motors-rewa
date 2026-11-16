@@ -4,7 +4,7 @@
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { routes } from './routes.js'
+import { allRoutes } from './routes.js'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const dist = join(root, 'dist')
@@ -32,7 +32,7 @@ const write = (file, content) => {
   writeFileSync(file, content)
 }
 
-for (const { path } of routes) {
+for (const { path } of allRoutes) {
   write(join(dist, path === '/' ? 'index.html' : `${path.slice(1)}/index.html`), await page(path))
 }
 // Served with a real 404 status by Netlify and Vercel for unknown addresses
@@ -45,8 +45,8 @@ write(join(dist, '404.html'), await page('/404'))
 // so such a rule also matches /about and redirects it to itself forever.
 write(
   join(dist, '_redirects'),
-  [...routes.filter((r) => r.path !== '/').map((r) => `${r.path}  ${r.path}/index.html  200!`), '/*  /404.html  404', ''].join('\n'),
+  [...allRoutes.filter((r) => r.path !== '/').map((r) => `${r.path}  ${r.path}/index.html  200!`), '/*  /404.html  404', ''].join('\n'),
 )
 
 rmSync(ssrDir, { recursive: true, force: true })
-console.log(`✓ pre-rendered ${routes.length} pages + 404.html`)
+console.log(`✓ pre-rendered ${allRoutes.length} pages (English + Hindi) + 404.html`)

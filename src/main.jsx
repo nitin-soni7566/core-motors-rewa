@@ -20,9 +20,9 @@ window.addEventListener('vite:preloadError', (event) => {
 const container = document.getElementById('root')
 const app = <Root Router={BrowserRouter} />
 
-// Pages are pre-rendered in English at build time (scripts/prerender.js). Attach React to that HTML,
-// unless the visitor chose Hindi (boot.js already set <html lang="hi">): then render fresh in Hindi.
-if (container.hasChildNodes() && document.documentElement.lang !== 'hi') {
+// Every page (English and /hi Hindi) is pre-rendered at build time (scripts/prerender.js):
+// attach React to that HTML. Fall back to a fresh render if the HTML is missing (e.g. `npm run dev`).
+if (container.hasChildNodes()) {
   hydrateRoot(container, app)
 } else {
   createRoot(container).render(app)

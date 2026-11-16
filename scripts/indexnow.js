@@ -4,7 +4,7 @@
 // The key file public/<key>.txt proves we own the site; it must be live before submitting.
 import { readdirSync } from 'node:fs'
 import { siteConfig } from '../src/data/siteConfig.js'
-import { routes } from './routes.js'
+import { allRoutes as routes } from './routes.js'
 
 const keyFile = readdirSync(new URL('../public/', import.meta.url)).find((f) => /^[a-f0-9]{32}\.txt$/.test(f))
 if (!keyFile) throw new Error('IndexNow key file (public/<32 hex characters>.txt) not found')

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from './LocalizedLink.jsx'
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react'
 import { services } from '../data/services.js'
 import { fullAddress, siteConfig, telHref, whatsappLink } from '../data/siteConfig.js'
