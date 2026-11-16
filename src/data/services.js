@@ -7,6 +7,12 @@ export const services = [
     slug: 'general-periodic-service',
     icon: 'wrench',
     title: { en: 'General Periodic Service', hi: 'जनरल पीरियॉडिक सर्विस' },
+    // Optional: Google title/description using the words people actually search for
+    seoTitle: { en: 'Car Service in Rewa – Periodic Service & Oil Change', hi: 'रीवा में कार सर्विस – पीरियॉडिक सर्विस और ऑयल चेंज' },
+    seoDescription: {
+      en: 'Car service in Rewa for all brands: engine oil & filter change, fluid top-ups and a 50-point check as per your car’s schedule. Free pickup & drop. Book on WhatsApp.',
+      hi: 'रीवा में सभी ब्रांड की कार सर्विस: इंजन ऑयल और फ़िल्टर चेंज, फ़्लूइड टॉप-अप और 50-पॉइंट जाँच। फ़्री पिकअप-ड्रॉप। व्हाट्सऐप पर बुक करें।',
+    },
     short: {
       en: 'Oil change, filters, fluid top-ups and a 50-point health check as per your car’s schedule.',
       hi: 'ऑयल चेंज, फ़िल्टर, फ़्लूइड टॉप-अप और कंपनी शेड्यूल के अनुसार 50-पॉइंट हेल्थ चेक।',
@@ -87,6 +93,11 @@ export const services = [
     slug: 'accidental-insurance-repair',
     icon: 'shield-check',
     title: { en: 'Accidental & Insurance Repair', hi: 'एक्सीडेंटल और इंश्योरेंस रिपेयर' },
+    seoTitle: { en: 'Car Insurance Claim & Accident Repair in Rewa (Cashless)', hi: 'रीवा में कार इंश्योरेंस क्लेम और एक्सीडेंट रिपेयर (कैशलेस)' },
+    seoDescription: {
+      en: 'Car insurance claim in Rewa: cashless claims with major insurers, surveyor visit and paperwork handled, and complete accident repair to pre-accident condition.',
+      hi: 'रीवा में कार इंश्योरेंस क्लेम: प्रमुख बीमा कंपनियों के साथ कैशलेस क्लेम, सर्वेयर और कागज़ात हम संभालते हैं, और पूरी एक्सीडेंट रिपेयर।',
+    },
     short: {
       en: 'Cashless insurance claims and complete accident repair, handled end-to-end by our team.',
       hi: 'कैशलेस इंश्योरेंस क्लेम और पूरी एक्सीडेंट रिपेयर — शुरू से अंत तक हमारी टीम संभालती है।',

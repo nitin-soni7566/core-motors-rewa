@@ -29,9 +29,34 @@ export default function ServiceDetail() {
   return (
     <>
       <Seo
-        title={t('detail.seoTitle', { service: title })}
-        description={t('detail.seoDesc', { short: tx(service.short), service: title, name: siteConfig.name })}
+        title={service.seoTitle ? tx(service.seoTitle) : t('detail.seoTitle', { service: title })}
+        description={
+          service.seoDescription ? tx(service.seoDescription) : t('detail.seoDesc', { short: tx(service.short), service: title, name: siteConfig.name })
+        }
         image={service.image}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: service.seoTitle ? service.seoTitle.en : `${service.title.en} in ${siteConfig.address.city}`,
+          serviceType: service.title.en,
+          description: service.short.en,
+          url: `${siteConfig.siteUrl}/services/${service.slug}`,
+          areaServed: { '@type': 'City', name: siteConfig.address.city },
+          provider: {
+            '@type': 'AutoRepair',
+            name: siteConfig.name,
+            url: siteConfig.siteUrl,
+            telephone: siteConfig.phone,
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: siteConfig.address.street,
+              addressLocality: siteConfig.address.city,
+              addressRegion: siteConfig.address.state,
+              postalCode: siteConfig.address.pin,
+              addressCountry: 'IN',
+            },
+          },
+        }}
       />
       <PageHeader
         title={title}

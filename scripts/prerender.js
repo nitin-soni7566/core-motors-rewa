@@ -20,7 +20,7 @@ async function page(url) {
   const { html, helmet } = await render(url)
   if (/<script/i.test(html)) throw new Error(`${url}: rendered HTML contains a <script> (would break the CSP)`)
   if (!html.includes('<h1')) throw new Error(`${url}: rendered page has no <h1>`)
-  const head = [helmet.title, helmet.meta, helmet.link].map((part) => part.toString()).join('\n    ')
+  const head = [helmet.title, helmet.meta, helmet.link, helmet.script].map((part) => part.toString()).join('\n    ')
   return template
     .replace(/<html[^>]*>/, `<html ${helmet.htmlAttributes.toString()}>`)
     .replace(/(<meta name="viewport"[^>]*>)/, `$1\n    ${head}`)

@@ -17,7 +17,7 @@ export const siteConfig = {
   name: 'Core Motors Rewa',
   shortName: 'Core Motors',
   tagline: 'Multi-brand car service centre in Rewa',
-  defaultTitle: 'Core Motors Rewa | Car Service, Denting, Painting & Detailing in Rewa',
+  defaultTitle: 'Car Service & Insurance Claims in Rewa | Core Motors Rewa',
   description:
     'Core Motors Rewa is a multi-brand car service centre in Rewa, Madhya Pradesh offering periodic service, engine repair, denting & painting, detailing, ceramic coating, PPF, AC repair and insurance claims.',
 

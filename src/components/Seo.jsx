@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { siteConfig } from '../data/siteConfig.js'
 import { useLang } from '../context/LanguageContext.jsx'
 
-export default function Seo({ title, description = siteConfig.description, image = siteConfig.ogImage, noindex = false }) {
+export default function Seo({ title, description = siteConfig.description, image = siteConfig.ogImage, noindex = false, jsonLd }) {
   const { pathname } = useLocation()
   const { lang } = useLang()
   const fullTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.defaultTitle
@@ -23,6 +23,7 @@ export default function Seo({ title, description = siteConfig.description, image
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
+      {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>}
     </Helmet>
   )
 }
