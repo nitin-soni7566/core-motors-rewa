@@ -6,8 +6,13 @@ import { markIntroDone } from '../context/introStore.js'
 
 const SEEN_KEY = 'cm-intro-seen'
 
+// Search engine crawlers (Googlebot, Bingbot…) get the page straight away, never the splash.
+// Keep this pattern in sync with public/boot.js.
+const isBot = () => /bot|crawl|spider|slurp|lighthouse|google-inspectiontool/i.test(navigator.userAgent)
+
 const shouldShow = () => {
   try {
+    if (isBot()) return false
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
     return !sessionStorage.getItem(SEEN_KEY)
   } catch {

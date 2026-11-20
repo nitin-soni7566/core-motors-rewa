@@ -15,7 +15,9 @@
   //     sand-logo intro starts, so it doesn't flash before the splash. index.css fades it out after 6 s
   //     anyway, in case the JavaScript never loads.
   try {
-    if (!sessionStorage.getItem('cm-intro-seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+    // Crawlers skip the intro (same pattern as src/components/IntroSplash.jsx).
+    var bot = /bot|crawl|spider|slurp|lighthouse|google-inspectiontool/i.test(navigator.userAgent)
+    if (!bot && !sessionStorage.getItem('cm-intro-seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches)
       html.classList.add('intro-pending')
   } catch {
     // storage blocked: no intro
