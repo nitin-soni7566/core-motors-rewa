@@ -36,6 +36,7 @@ function siteMetaPlugin() {
       addressCountry: 'IN',
     },
     geo: { '@type': 'GeoCoordinates', latitude: s.geo.lat, longitude: s.geo.lng },
+    hasMap: s.mapPlaceUrl,
     openingHoursSpecification: s.hoursSchema.map((h) => ({
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: h.days,

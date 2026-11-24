@@ -42,13 +42,14 @@ export const siteConfig = {
     state: 'Madhya Pradesh',
     pin: '486001', // TODO: confirm the PIN code for Ratahara
   },
-  // Exact workshop location (owner-supplied coordinates)
-  geo: { lat: 24.54570494818453, lng: 81.34094515161048 },
-  // Map shown on the site. Once the Google Business Profile is verified, replace this with the profile's
-  // Google Maps → Share → "Embed a map" link, so the pin shows the business name and reviews.
-  mapEmbedUrl: 'https://www.google.com/maps?q=24.54570494818453,81.34094515161048&z=17&hl=en&output=embed',
+  // Exact workshop location (from the Google Business listing)
+  geo: { lat: 24.5455216, lng: 81.3407164 },
+  // Map shown on the site: the Google listing "CORE MOTORS REWA" (cid = its listing number)
+  mapEmbedUrl: 'https://www.google.com/maps?cid=14117822944362806666&z=17&hl=en&output=embed',
+  // The listing's own page (Google schema: hasMap)
+  mapPlaceUrl: 'https://www.google.com/maps?cid=14117822944362806666',
   // "Get directions" (opens Google Maps navigation to the workshop)
-  mapLink: 'https://www.google.com/maps/dir/?api=1&destination=24.54570494818453,81.34094515161048',
+  mapLink: 'https://www.google.com/maps/dir/?api=1&destination=24.5455216,81.3407164&destination_place_id=ChIJ11ieUp1RhDkRir2aICuV7MM',
 
   // Opening hours (displayed, in English and Hindi)
   hours: [

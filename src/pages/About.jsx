@@ -15,10 +15,12 @@ const values = [
   { icon: HeartHandshake, key: 'promise' },
 ]
 
+const ceo = { name: { en: 'Goldi Pandey', hi: 'गोल्डी पांडे' }, image: '/images/goldi-pandey.webp' }
+
 const facilityIcons = [ScanLine, Wrench, SprayCan, Award, Warehouse, Armchair]
 
 export default function About() {
-  const { t } = useLang()
+  const { t, tx } = useLang()
   return (
     <>
       <Seo title={t('about.seoTitle')} description={t('about.seoDesc', { name: siteConfig.name })} />
@@ -92,8 +94,31 @@ export default function About() {
         </div>
       </section>
 
+      {/* CEO */}
+      <section className="section overflow-hidden">
+        <div className="container-x grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+          <Reveal>
+            <img
+              src={ceo.image}
+              alt={t('about.ceoAlt', { name: tx(ceo.name), company: siteConfig.name })}
+              width="1000"
+              height="914"
+              loading="lazy"
+              className="h-auto w-full rounded-3xl object-cover shadow-2xl"
+            />
+          </Reveal>
+          <div>
+            <SectionTitle align="left" eyebrow={t('about.ceoEyebrow')} title={tx(ceo.name)} className="!mb-4" />
+            <Reveal delay={0.1}>
+              <p className="font-medium text-accent">{t('about.ceoRole', { company: siteConfig.name })}</p>
+              <p className="mt-5 leading-relaxed text-muted">{t('about.ceoText', { name: tx(ceo.name), company: siteConfig.name })}</p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* Facilities */}
-      <section className="section">
+      <section className="section bg-surface-2">
         <div className="container-x">
           <SectionTitle eyebrow={t('about.facEyebrow')} title={t('about.facTitle')} subtitle={t('about.facSubtitle')} />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
