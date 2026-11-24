@@ -1,5 +1,7 @@
 # Core Motors Rewa — Website
 
+**Live site: [coremotors.in](https://coremotors.in/)**
+
 A fast, mobile-friendly website for **Core Motors Rewa**, a multi-brand car service centre in Rewa, Madhya Pradesh.
 It's a fully static site with no server and no database. Bookings go straight to your WhatsApp.
 
@@ -33,19 +35,7 @@ Other commands:
 **All business information is in one file: `src/data/siteConfig.js`.**
 Change it there and it updates across the whole site, including the footer, contact page, WhatsApp links, Google schema, SEO tags and sitemap.
 
-Replace these placeholders:
-
-| Field          | Placeholder                    | Example                         |
-| -------------- | ------------------------------ | ------------------------------- |
-| `phones` (top of the file) | list of call numbers | `['+91 79098 88891', '+91 79098 88892']`, written as displayed. The **first** one is dialled by every "Call Now" button; all are listed in the footer and on the Contact page. |
-| `whatsapp`     | `91XXXXXXXXXX`                 | `917909888892` (digits only, with 91). Bookings are sent here. |
-| `whatsappDisplay` | —                           | `+91 79098 88892` (the WhatsApp number as shown on the site) |
-| `address`      | `Core Motors, [Street]`        | Your real street address        |
-| `geo`          | Rewa city centre               | Your workshop's latitude/longitude |
-| `mapEmbedUrl`  | Rewa city search               | See below                       |
-| `siteUrl`      | `https://coremotors.in`        | Your real domain                |
-| `socials`      | Generic Facebook/Instagram/YouTube | Your page links (use `''` to hide an icon) |
-| `stats`        | 5000 / 12000 / 10 / 15         | Your real numbers               |
+Main fields: `phones` (the first is dialled by every "Call Now" button), `whatsapp` (digits only, with 91; bookings go here), `whatsappDisplay`, `emails`, `address`, `geo`, `mapEmbedUrl`, `siteUrl`, `socials` (`''` hides an icon) and `stats`.
 
 **Google Map:** the map uses the workshop coordinates in `geo` / `mapEmbedUrl`, and `mapLink` opens Google Maps directions to them. Once your Google Business Profile is verified, open it in Google Maps → **Share** → **Embed a map** and copy only the `src="…"` URL into `mapEmbedUrl`, so the pin shows your business name and reviews.
 
@@ -56,12 +46,10 @@ Opening hours are set in two places in the same file: `hours` (what visitors see
 | File          | Contents                                                       |
 | ------------- | -------------------------------------------------------------- |
 | `services.js` | All 17 services: title, short text, description, benefits, image, icon |
-| `reviews.js`  | Customer reviews (**placeholders**, so replace them with real Google reviews) |
+| `reviews.js`  | Real customer reviews (section is hidden while the list is empty) |
 | `faqs.js`     | FAQ questions and answers                                      |
-| `gallery.js`  | Gallery photos and their category (Painting / Detailing / Repair) |
+| `gallery.js`  | Your own photos and their category (gallery is hidden while the list is empty) |
 | `brands.js`   | Brands in the scrolling strip and the booking form dropdown    |
-
-The team members on the About page are placeholders too. Edit the `team` list in `src/pages/About.jsx`.
 
 ### Hindi / English
 

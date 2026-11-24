@@ -13,12 +13,13 @@ import { siteConfig, telLink, whatsappLink } from '../data/siteConfig.js'
 import { srcSet } from '../data/images.js'
 import { useBooking } from '../context/BookingContext.jsx'
 import { useLang } from '../context/LanguageContext.jsx'
+import { localizePath } from '../i18n/routing.js'
 import NotFound from './NotFound.jsx'
 
 export default function ServiceDetail() {
   const { slug } = useParams()
   const { openBooking } = useBooking()
-  const { t, tx } = useLang()
+  const { t, tx, lang } = useLang()
   const service = getServiceBySlug(slug)
 
   if (!service) return <NotFound />
@@ -37,26 +38,38 @@ export default function ServiceDetail() {
         image={service.image}
         jsonLd={{
           '@context': 'https://schema.org',
-          '@type': 'Service',
-          name: service.seoTitle ? service.seoTitle.en : `${service.title.en} in ${siteConfig.address.city}`,
-          serviceType: service.title.en,
-          description: service.short.en,
-          url: `${siteConfig.siteUrl}/services/${service.slug}`,
-          areaServed: { '@type': 'City', name: siteConfig.address.city },
-          provider: {
-            '@type': 'AutoRepair',
-            name: siteConfig.name,
-            url: siteConfig.siteUrl,
-            telephone: siteConfig.phone,
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: siteConfig.address.street,
-              addressLocality: siteConfig.address.city,
-              addressRegion: siteConfig.address.state,
-              postalCode: siteConfig.address.pin,
-              addressCountry: 'IN',
+          '@graph': [
+            {
+              '@type': 'Service',
+              name: service.seoTitle ? service.seoTitle.en : `${service.title.en} in ${siteConfig.address.city}`,
+              serviceType: service.title.en,
+              description: service.short.en,
+              url: `${siteConfig.siteUrl}/services/${service.slug}`,
+              areaServed: { '@type': 'City', name: siteConfig.address.city },
+              provider: {
+                '@type': 'AutoRepair',
+                name: siteConfig.name,
+                url: siteConfig.siteUrl,
+                telephone: siteConfig.phone,
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: siteConfig.address.street,
+                  addressLocality: siteConfig.address.city,
+                  addressRegion: siteConfig.address.state,
+                  postalCode: siteConfig.address.pin,
+                  addressCountry: 'IN',
+                },
+              },
             },
-          },
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { name: t('nav.home'), path: '/' },
+                { name: t('nav.services'), path: '/services' },
+                { name: title, path: `/services/${service.slug}` },
+              ].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${siteConfig.siteUrl}${localizePath(c.path, lang)}` })),
+            },
+          ],
         }}
       />
       <PageHeader

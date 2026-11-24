@@ -12,6 +12,7 @@ import ErrorBoundary from './components/ErrorBoundary.jsx'
 import Home from './pages/Home.jsx'
 import { useLang } from './context/LanguageContext.jsx'
 import { HI_PREFIX } from './i18n/routing.js'
+import { gallery } from './data/gallery.js'
 
 const About = lazy(() => import('./pages/About.jsx'))
 const Services = lazy(() => import('./pages/Services.jsx'))
@@ -57,7 +58,7 @@ export default function App() {
                 <Route key={`${base}/about`} path={`${base}/about`} element={<About />} />,
                 <Route key={`${base}/services`} path={`${base}/services`} element={<Services />} />,
                 <Route key={`${base}/services/:slug`} path={`${base}/services/:slug`} element={<ServiceDetail />} />,
-                <Route key={`${base}/gallery`} path={`${base}/gallery`} element={<Gallery />} />,
+                gallery.length > 0 && <Route key={`${base}/gallery`} path={`${base}/gallery`} element={<Gallery />} />,
                 <Route key={`${base}/contact`} path={`${base}/contact`} element={<Contact />} />,
                 <Route key={`${base}/privacy`} path={`${base}/privacy`} element={<Privacy />} />,
                 <Route key={`${base}/terms`} path={`${base}/terms`} element={<Terms />} />,

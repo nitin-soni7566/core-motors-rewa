@@ -19,7 +19,7 @@ export const siteConfig = {
   tagline: 'Multi-brand car service centre in Rewa',
   defaultTitle: 'Car Service & Insurance Claims in Rewa | Core Motors Rewa',
   description:
-    'Core Motors Rewa is a multi-brand car service centre in Rewa, Madhya Pradesh offering periodic service, engine repair, denting & painting, detailing, ceramic coating, PPF, AC repair and insurance claims.',
+    'Multi-brand car service centre in Rewa, MP: periodic service, denting & painting, ceramic coating, PPF, AC repair and insurance claims. Book on WhatsApp.',
 
   // Live website address (used for sitemap, canonical & Open Graph links)
   siteUrl: 'https://coremotors.in',
@@ -65,9 +65,9 @@ export const siteConfig = {
 
   // Leave a value as '' to hide that icon
   socials: {
-    facebook: 'https://facebook.com/',
-    instagram: 'https://instagram.com/',
-    youtube: 'https://youtube.com/',
+    facebook: '',
+    instagram: '',
+    youtube: '',
   },
 
   // Numbers for the animated counters on the home page

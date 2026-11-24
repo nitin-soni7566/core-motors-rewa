@@ -33,6 +33,7 @@ export const services = [
     slug: 'engine-repair',
     icon: 'cog',
     title: { en: 'Engine Repair', hi: 'इंजन रिपेयर' },
+    seoTitle: { en: 'Car Engine Repair in Rewa', hi: 'रीवा में कार इंजन रिपेयर' },
     short: {
       en: 'Diagnosis and repair of misfires, overheating, oil leaks, noises and complete engine overhauls.',
       hi: 'मिसफ़ायर, ओवरहीटिंग, ऑयल लीक, आवाज़ की जाँच-मरम्मत और पूरा इंजन ओवरहॉल।',
@@ -53,6 +54,7 @@ export const services = [
     slug: 'denting-painting',
     icon: 'hammer',
     title: { en: 'Denting & Painting', hi: 'डेंटिंग और पेंटिंग' },
+    seoTitle: { en: 'Car Denting & Painting in Rewa', hi: 'रीवा में कार डेंटिंग और पेंटिंग' },
     short: {
       en: 'Dents, scratches and panel damage fixed with factory-matched paint and a dust-free finish.',
       hi: 'डेंट, स्क्रैच और पैनल डैमेज की मरम्मत — फ़ैक्ट्री जैसे मिलते पेंट और धूल-रहित फ़िनिश के साथ।',
@@ -73,6 +75,7 @@ export const services = [
     slug: 'full-body-painting',
     icon: 'paint-roller',
     title: { en: 'Full Body Painting', hi: 'फ़ुल बॉडी पेंटिंग' },
+    seoTitle: { en: 'Full Body Car Painting in Rewa', hi: 'रीवा में फ़ुल बॉडी कार पेंटिंग' },
     short: {
       en: 'Complete repaint in the original or a brand-new colour with premium automotive paints.',
       hi: 'प्रीमियम ऑटोमोटिव पेंट से ओरिजिनल या बिल्कुल नए रंग में पूरी कार का पेंट।',
@@ -158,6 +161,7 @@ export const services = [
     slug: 'battery-electrical',
     icon: 'battery',
     title: { en: 'Battery & Electrical', hi: 'बैटरी और इलेक्ट्रिकल' },
+    seoTitle: { en: 'Car Battery & Electrical Repair in Rewa', hi: 'रीवा में कार बैटरी और इलेक्ट्रिकल रिपेयर' },
     short: {
       en: 'Battery testing and replacement, wiring, lights, starter, alternator and sensor repairs.',
       hi: 'बैटरी टेस्ट और बदलाव, वायरिंग, लाइट, स्टार्टर, अल्टरनेटर और सेंसर रिपेयर।',
@@ -178,6 +182,7 @@ export const services = [
     slug: 'brake-suspension',
     icon: 'disc',
     title: { en: 'Brake & Suspension', hi: 'ब्रेक और सस्पेंशन' },
+    seoTitle: { en: 'Car Brake & Suspension Repair in Rewa', hi: 'रीवा में कार ब्रेक और सस्पेंशन रिपेयर' },
     short: {
       en: 'Brake pads, discs, shock absorbers and suspension repairs for safe, comfortable driving.',
       hi: 'सुरक्षित और आरामदायक ड्राइविंग के लिए ब्रेक पैड, डिस्क, शॉक एब्ज़ॉर्बर और सस्पेंशन रिपेयर।',
@@ -198,6 +203,7 @@ export const services = [
     slug: 'detailing-interior-cleaning',
     icon: 'sparkles',
     title: { en: 'Detailing & Interior Cleaning', hi: 'डिटेलिंग और इंटीरियर क्लीनिंग' },
+    seoTitle: { en: 'Car Detailing & Interior Cleaning in Rewa', hi: 'रीवा में कार डिटेलिंग और इंटीरियर क्लीनिंग' },
     short: {
       en: 'Deep interior cleaning, upholstery shampoo, polishing and odour removal inside and out.',
       hi: 'इंटीरियर की गहरी सफ़ाई, सीट शैम्पू, पॉलिशिंग और बदबू हटाना — अंदर और बाहर।',
@@ -218,6 +224,7 @@ export const services = [
     slug: 'ceramic-coating',
     icon: 'gem',
     title: { en: 'Ceramic Coating', hi: 'सिरेमिक कोटिंग' },
+    seoTitle: { en: 'Car Ceramic Coating in Rewa', hi: 'रीवा में कार सिरेमिक कोटिंग' },
     short: {
       en: 'Long-lasting glossy protection against UV, water spots, dust and minor scratches.',
       hi: 'UV, पानी के धब्बों, धूल और हल्के स्क्रैच से लंबे समय तक चमकदार सुरक्षा।',
@@ -258,6 +265,7 @@ export const services = [
     slug: 'sunfilm-vinyl-wrap',
     icon: 'sun',
     title: { en: 'Sunfilm & Vinyl Wrap', hi: 'सनफ़िल्म और विनाइल रैप' },
+    seoTitle: { en: 'Car Sunfilm & Vinyl Wrap in Rewa', hi: 'रीवा में कार सनफ़िल्म और विनाइल रैप' },
     short: {
       en: 'Legal sun-control films and colour-change vinyl wraps for style and comfort.',
       hi: 'स्टाइल और आराम के लिए नियमानुसार सन-कंट्रोल फ़िल्म और रंग बदलने वाले विनाइल रैप।',
@@ -278,6 +286,7 @@ export const services = [
     slug: 'accessories',
     icon: 'package',
     title: { en: 'Accessories', hi: 'एक्सेसरीज़' },
+    seoTitle: { en: 'Car Accessories in Rewa', hi: 'रीवा में कार एक्सेसरीज़' },
     short: {
       en: 'Seat covers, mats, music systems, cameras, lights and more — supplied and fitted.',
       hi: 'सीट कवर, मैट, म्यूज़िक सिस्टम, कैमरा, लाइट और बहुत कुछ — लगाकर भी देते हैं।',
@@ -298,6 +307,7 @@ export const services = [
     slug: 'tyres',
     icon: 'life-buoy',
     title: { en: 'Tyres', hi: 'टायर' },
+    seoTitle: { en: 'Car Tyre Shop in Rewa', hi: 'रीवा में कार टायर शॉप' },
     short: {
       en: 'New tyres from leading brands, puncture repair, nitrogen filling and tyre rotation.',
       hi: 'प्रमुख ब्रांड्स के नए टायर, पंचर रिपेयर, नाइट्रोजन भरना और टायर रोटेशन।',
@@ -338,6 +348,7 @@ export const services = [
     slug: 'pickup-drop',
     icon: 'truck',
     title: { en: 'Pickup & Drop', hi: 'पिकअप और ड्रॉप' },
+    seoTitle: { en: 'Car Pickup & Drop Service in Rewa', hi: 'रीवा में कार पिकअप और ड्रॉप सर्विस' },
     short: {
       en: 'Free doorstep pickup and drop within Rewa city — service your car without leaving home.',
       hi: 'रीवा शहर में मुफ़्त घर से पिकअप और ड्रॉप — घर बैठे कार की सर्विस।',

@@ -11,13 +11,14 @@ import { useLang } from '../context/LanguageContext.jsx'
 import Logo from './Logo.jsx'
 import ServiceIcon from './ServiceIcon.jsx'
 import SocialIcons from './SocialIcons.jsx'
+import { gallery } from '../data/gallery.js'
 import { LangToggle, ThemeToggle } from './Toggles.jsx'
 
 const links = [
   { to: '/', key: 'nav.home' },
   { to: '/about', key: 'nav.about' },
   { to: '/services', key: 'nav.services', dropdown: true },
-  { to: '/gallery', key: 'nav.gallery' },
+  ...(gallery.length ? [{ to: '/gallery', key: 'nav.gallery' }] : []),
   { to: '/contact', key: 'nav.contact' },
 ]
 

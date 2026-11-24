@@ -7,6 +7,7 @@ import { useLang } from '../context/LanguageContext.jsx'
 import { useBooking } from '../context/BookingContext.jsx'
 import Logo from './Logo.jsx'
 import SocialIcons from './SocialIcons.jsx'
+import { gallery } from '../data/gallery.js'
 
 const YEAR = new Date().getFullYear()
 const DEVELOPER_EMAIL = 'nitinsoni815@gmail.com'
@@ -14,7 +15,7 @@ const DEVELOPER_EMAIL = 'nitinsoni815@gmail.com'
 const quickLinks = [
   { to: '/about', key: 'footer.aboutUs' },
   { to: '/services', key: 'footer.ourServices' },
-  { to: '/gallery', key: 'nav.gallery' },
+  ...(gallery.length ? [{ to: '/gallery', key: 'nav.gallery' }] : []),
   { to: '/contact', key: 'nav.contact' },
   { to: '/privacy', key: 'footer.privacy' },
   { to: '/terms', key: 'footer.terms' },

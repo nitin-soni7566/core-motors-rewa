@@ -15,18 +15,10 @@ const values = [
   { icon: HeartHandshake, key: 'promise' },
 ]
 
-// Placeholder team — replace names, roles and photos with your real team.
-const team = [
-  { name: 'Rajesh Kumar', role: { en: 'Founder & Head Technician', hi: 'संस्थापक और मुख्य टेक्नीशियन' }, image: unsplash('1472099645785-5658abf4ff4e', 500, 600) },
-  { name: 'Arjun Verma', role: { en: 'Service Manager', hi: 'सर्विस मैनेजर' }, image: unsplash('1500648767791-00dcc994a43e', 500, 600) },
-  { name: 'Sandeep Yadav', role: { en: 'Body Shop & Paint Expert', hi: 'बॉडी शॉप और पेंट विशेषज्ञ' }, image: unsplash('1506794778202-cad84cf45f1d', 500, 600) },
-  { name: 'Mohit Gupta', role: { en: 'Detailing Specialist', hi: 'डिटेलिंग विशेषज्ञ' }, image: unsplash('1535713875002-d1d0cf377fde', 500, 600) },
-]
-
 const facilityIcons = [ScanLine, Wrench, SprayCan, Award, Warehouse, Armchair]
 
 export default function About() {
-  const { t, tx } = useLang()
+  const { t } = useLang()
   return (
     <>
       <Seo title={t('about.seoTitle')} description={t('about.seoDesc', { name: siteConfig.name })} />
@@ -100,33 +92,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="section">
-        <div className="container-x">
-          <SectionTitle eyebrow={t('about.teamEyebrow')} title={t('about.teamTitle')} subtitle={t('about.teamSubtitle')} />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.1}>
-                <article className="group relative overflow-hidden rounded-3xl bg-surface-3">
-                  <img
-                    src={m.image}
-                    alt={t('about.at', { name: m.name, role: tx(m.role) })}
-                    loading="lazy"
-                    className="aspect-[5/6] w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
-                  />
-                  <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/10 bg-black/50 p-4 text-white backdrop-blur-md">
-                    <h3 className="font-semibold">{m.name}</h3>
-                    <p className="mt-0.5 text-xs text-neutral-300">{tx(m.role)}</p>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Facilities */}
-      <section className="section bg-surface-2">
+      <section className="section">
         <div className="container-x">
           <SectionTitle eyebrow={t('about.facEyebrow')} title={t('about.facTitle')} subtitle={t('about.facSubtitle')} />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

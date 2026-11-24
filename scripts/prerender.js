@@ -5,6 +5,7 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { allRoutes } from './routes.js'
+import { siteConfig } from '../src/data/siteConfig.js'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const dist = join(root, 'dist')
@@ -38,6 +39,9 @@ for (const { path } of allRoutes) {
 // Served with a real 404 status by Netlify and Vercel for unknown addresses
 write(join(dist, '404.html'), await page('/404'))
 
+// First, the free Netlify address 301-redirects to the real domain (same path), so Google sees only one site.
+// The full hostname in the rule keeps it from matching the real domain (no loop) or deploy previews.
+//
 // Netlify: serve each page at its exact URL (forced "200!", otherwise Netlify's pretty-URL handling
 // 301-redirects /about to /about/ and every canonical URL in the sitemap would be a redirect).
 // Anything else gets the 404 page with status 404.
@@ -45,7 +49,12 @@ write(join(dist, '404.html'), await page('/404'))
 // so such a rule also matches /about and redirects it to itself forever.
 write(
   join(dist, '_redirects'),
-  [...allRoutes.filter((r) => r.path !== '/').map((r) => `${r.path}  ${r.path}/index.html  200!`), '/*  /404.html  404', ''].join('\n'),
+  [
+    `https://coremotorsrewa.netlify.app/*  ${siteConfig.siteUrl.replace(/\/$/, '')}/:splat  301!`,
+    ...allRoutes.filter((r) => r.path !== '/').map((r) => `${r.path}  ${r.path}/index.html  200!`),
+    '/*  /404.html  404',
+    '',
+  ].join('\n'),
 )
 
 rmSync(ssrDir, { recursive: true, force: true })

@@ -28,6 +28,7 @@ import MapEmbed from '../components/MapEmbed.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { services } from '../data/services.js'
 import { gallery } from '../data/gallery.js'
+import { reviews } from '../data/reviews.js'
 import { srcSet, unsplash } from '../data/images.js'
 import { fullAddress, siteConfig } from '../data/siteConfig.js'
 import { useBooking } from '../context/BookingContext.jsx'
@@ -196,9 +197,10 @@ export default function Home() {
         </div>
       </section>
 
-      <Reviews />
+      {reviews.length > 0 && <Reviews />}
 
-      {/* Gallery preview */}
+      {/* Gallery preview (hidden until gallery.js has photos) */}
+      {gallery.length > 0 && (
       <section className="section">
         <div className="container-x">
           <SectionTitle eyebrow={t('home.gallery.eyebrow')} title={t('home.gallery.title')} subtitle={t('home.gallery.subtitle')} />
@@ -211,6 +213,7 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
+      )}
 
       {/* FAQ */}
       <section className="section bg-surface-2">

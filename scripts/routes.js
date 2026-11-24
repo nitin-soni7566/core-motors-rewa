@@ -1,5 +1,6 @@
 // Every public page of the site. Used for sitemap.xml (generate-seo-files.js) and for the
 // static HTML written at build time (prerender.js). Add new pages here as well as in src/App.jsx.
+import { gallery } from '../src/data/gallery.js'
 import { services } from '../src/data/services.js'
 import { localizePath } from '../src/i18n/routing.js'
 
@@ -8,7 +9,7 @@ export const routes = [
   { path: '/services', priority: '0.9', changefreq: 'monthly' },
   ...services.map((s) => ({ path: `/services/${s.slug}`, priority: '0.8', changefreq: 'monthly' })),
   { path: '/about', priority: '0.7', changefreq: 'monthly' },
-  { path: '/gallery', priority: '0.7', changefreq: 'monthly' },
+  ...(gallery.length ? [{ path: '/gallery', priority: '0.7', changefreq: 'monthly' }] : []),
   { path: '/contact', priority: '0.8', changefreq: 'yearly' },
   { path: '/privacy', priority: '0.3', changefreq: 'yearly' },
   { path: '/terms', priority: '0.3', changefreq: 'yearly' },

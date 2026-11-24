@@ -95,11 +95,13 @@ export default function Contact() {
               </dl>
               <p className="mt-4 text-xs text-neutral-400">{t('contact.emergency')}</p>
             </div>
+            {Object.values(siteConfig.socials).some(Boolean) && (
             <div className="card p-7">
               <h2 className="text-lg font-semibold">{t('contact.follow')}</h2>
               <p className="mt-1 text-sm text-muted">{t('contact.followText')}</p>
               <SocialIcons className="mt-4" linkClass="h-11 w-11 rounded-full border border-line text-ink hover:border-accent hover:bg-accent hover:text-white" iconClass="h-5 w-5" />
             </div>
+            )}
             <MapEmbed className="h-72" />
           </Reveal>
         </div>
